@@ -68,12 +68,15 @@ class Solution:
     def countTestedDevices(self, batteryPercentages: List[int]) -> int:
         count_tested = 0
         for device in batteryPercentages:
-            if (device - count_tested) > 0 :
+            if (device - count_tested) > 0:
                 count_tested += 1
         return count_tested
+
+    def theMaximumAchievableX(self, num: int, t: int) -> int:
+        return num + 2 * t
 
 
 if __name__ == "__main__":
     solution = Solution()
-    dis = solution.countTestedDevices([1,1,2,1,3])
+    dis = solution.countTestedDevices([1, 1, 2, 1, 3])
     print(dis)
