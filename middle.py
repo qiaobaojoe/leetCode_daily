@@ -1,4 +1,5 @@
 from bisect import bisect_right
+from collections import Counter
 from typing import List
 
 
@@ -256,25 +257,59 @@ class Solution:
         worker.sort()
         print(worker)
         for w in worker:
-            
+
             for cur in range(diff_index, len(sorted_tuple)):
                 print(cur)
                 (d, f) = sorted_tuple[cur]
                 if w >= d:
                     max_profit = max(max_profit, f)
                     diff_index = cur
-                    print(diff_index,max_profit)
+                    print(diff_index, max_profit)
                 else:
                     break
             sum_profit += max_profit
 
         return sum_profit
 
+    def findWinners(self, matches: List[List[int]]) -> List[List[int]]:
+        no_lose = []
+        one_lose = []
+
+        lose_counter = Counter()
+        for winner, loser in matches:
+            if winner not in lose_counter:
+                lose_counter[winner] = 0
+            lose_counter[loser] += 1
+        for key, value in lose_counter.items():
+            if value == 0:
+                no_lose.append(key)
+            if value == 1:
+                one_lose.append(key)
+        no_lose.sort()
+        one_lose.sort()
+
+        return [no_lose, one_lose]
+
 
 def main():
     solution = Solution()
     # print(solution.singleNumber([1,1,0,-2147483648]))
-    print(solution.maxProfitAssignment([13, 37, 58], [4,90,96], [34, 73, 45]))
+    print(
+        solution.findWinners(
+            [
+                [1, 3],
+                [2, 3],
+                [3, 6],
+                [5, 6],
+                [5, 7],
+                [4, 5],
+                [4, 8],
+                [4, 9],
+                [10, 4],
+                [10, 9],
+            ]
+        )
+    )
 
 
 if __name__ == "__main__":
