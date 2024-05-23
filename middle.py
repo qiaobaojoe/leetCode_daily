@@ -1,5 +1,5 @@
 from bisect import bisect_right
-from collections import Counter
+from collections import Counter, defaultdict
 from typing import List
 
 
@@ -290,26 +290,40 @@ class Solution:
 
         return [no_lose, one_lose]
 
+    def longestEqualSubarray(self, nums: List[int], k: int) -> int:
+        pos_map = defaultdict(list)
+        for i, num in enumerate(nums):
+            pos_map[num].append(i)
+
+        longest = 0
+        for pos_list in pos_map.values():
+            longest = max(self.cur_equal_subarray(pos_list, k), longest)
+
+        return longest
+
+    def cur_equal_subarray(self, pos_list: List[int], k: int) -> int:
+        pos_size = len(pos_list)
+        if (pos_list[pos_size - 1] - pos_list[0]) + 1 - pos_size <= k:
+            return pos_size
+
+        cur_longest = 0
+        window_size = 0 #窗口大小定义在外面,不用每一次都重新寻找窗口大小，这一步很重要
+        for i in range(len(pos_list)):
+            while (
+                i + window_size + 1 < len(pos_list)
+                and pos_list[i + window_size + 1] - pos_list[i] - window_size - 1 <= k
+            ):
+                window_size += 1
+
+            cur_longest = max(cur_longest, window_size + 1)
+
+        return cur_longest
+
 
 def main():
     solution = Solution()
     # print(solution.singleNumber([1,1,0,-2147483648]))
-    print(
-        solution.findWinners(
-            [
-                [1, 3],
-                [2, 3],
-                [3, 6],
-                [5, 6],
-                [5, 7],
-                [4, 5],
-                [4, 8],
-                [4, 9],
-                [10, 4],
-                [10, 9],
-            ]
-        )
-    )
+    print(solution.longestEqualSubarray([3, 1, 5, 3, 1, 1], 0))
 
 
 if __name__ == "__main__":
