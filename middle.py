@@ -307,7 +307,7 @@ class Solution:
             return pos_size
 
         cur_longest = 0
-        window_size = 0 #窗口大小定义在外面,不用每一次都重新寻找窗口大小，这一步很重要
+        window_size = 0  # 窗口大小定义在外面,不用每一次都重新寻找窗口大小，这一步很重要
         for i in range(len(pos_list)):
             while (
                 i + window_size + 1 < len(pos_list)
@@ -319,11 +319,60 @@ class Solution:
 
         return cur_longest
 
+    def mostCompetitive(self, nums: List[int], k: int) -> List[int]:
+
+        sub_array_list = self.all_sub_array(nums, k)
+        # 得到所有的子序列尝试,遍历比较得到结果
+        for i in range(k):
+            cur_min = None
+            for sub in sub_array_list:
+                if cur_min is None:
+                    cur_min = sub[i]
+                else:
+                    cur_min = min(cur_min, sub[i])
+
+            copy_list = sub_array_list[:]
+            for sub in sub_array_list:
+                if sub[i] > cur_min:
+                    copy_list.remove(sub)
+            sub_array_list = copy_list
+
+        return sub_array_list[0]
+
+    def all_sub_array(self, nums: List[int], k: int) -> List[List[int]]:
+        sub_array_list = [nums]
+        if k == len(nums):
+            sub_array_list.append(nums)
+            return sub_array_list
+        while k < len(nums):
+            print(k)
+            wait_sub_array = sub_array_list[:]
+            sub_array_list = []
+
+            for w in wait_sub_array:
+                for i in w:
+                    new_w = w[:]
+                    new_w.remove(i)
+                    sub_array_list.append(new_w)
+            k += 1
+
+        return sub_array_list
+
+
+    def mostCompetitive2(self, nums: List[int], k: int) -> List[int]:
+            res = []
+            for i, x in enumerate(nums):
+                while len(res) > 0 and len(nums) - i + len(res) > k and res[-1] > x:
+                    res.pop()
+                res.append(x)
+            return res[:k]
+
 
 def main():
     solution = Solution()
     # print(solution.singleNumber([1,1,0,-2147483648]))
-    print(solution.longestEqualSubarray([3, 1, 5, 3, 1, 1], 0))
+    print(solution.mostCompetitive2([71,18,52,29,55,73,24], 3))
+    print(solution.mostCompetitive([71,18,52,29,55,73,24], 3))
 
 
 if __name__ == "__main__":
