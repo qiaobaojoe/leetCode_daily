@@ -319,7 +319,7 @@ class Solution:
 
         return cur_longest
 
-    def mostCompetitive(self, nums: List[int], k: int) -> List[int]:
+    def mostCompetitive_exhaustion(self, nums: List[int], k: int) -> List[int]:
 
         sub_array_list = self.all_sub_array(nums, k)
         # 得到所有的子序列尝试,遍历比较得到结果
@@ -358,21 +358,42 @@ class Solution:
 
         return sub_array_list
 
-
     def mostCompetitive2(self, nums: List[int], k: int) -> List[int]:
-            res = []
-            for i, x in enumerate(nums):
-                while len(res) > 0 and len(nums) - i + len(res) > k and res[-1] > x:
-                    res.pop()
-                res.append(x)
-            return res[:k]
+        res = []
+        for i, x in enumerate(nums):
+            while len(res) > 0 and len(nums) - i + len(res) > k and res[-1] > x:
+                res.pop()
+            res.append(x)
+        return res[:k]
+
+    def mostCompetitive3(self, nums: List[int], k: int) -> List[int]:
+        # 对上面方法进行剪枝,第一个不相同的数组,越小就越好.
+        # 所以为题就是找到可以裁剪出子序列范围内，最小的值
+        ans = []
+        help_list = nums[::1]
+        for i in range(k,0,-1):
+            sub_index = self.most_competitive_support(help_list,i)
+            ans.append(help_list[sub_index])
+            help_list = help_list[sub_index+1::]
+        return ans
+
+    def most_competitive_support(self, nums: List[int], k: int) -> int:
+        # 对上面方法进行剪枝,第一个不相同的数组,越小就越好.
+        # 所以为题就是找到可以裁剪出子序列范围内，最小的值
+        sub_index = 0
+        for index, num in enumerate(nums):
+            if num < nums[sub_index]:
+                    sub_index = index
+            if index + k == len(nums):
+                break
+        return sub_index
 
 
 def main():
     solution = Solution()
     # print(solution.singleNumber([1,1,0,-2147483648]))
-    print(solution.mostCompetitive2([71,18,52,29,55,73,24], 3))
-    print(solution.mostCompetitive([71,18,52,29,55,73,24], 3))
+    print(solution.mostCompetitive2([71, 18, 52, 29, 55, 73, 24], 3))
+    print(solution.mostCompetitive([71, 18, 52, 29, 55, 73, 24], 3))
 
 
 if __name__ == "__main__":
