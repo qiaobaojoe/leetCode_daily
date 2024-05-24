@@ -380,20 +380,16 @@ class Solution:
     def most_competitive_support(self, nums: List[int], k: int) -> int:
         # 对上面方法进行剪枝,第一个不相同的数组,越小就越好.
         # 所以为题就是找到可以裁剪出子序列范围内，最小的值
-        sub_index = 0
-        for index, num in enumerate(nums):
-            if num < nums[sub_index]:
-                    sub_index = index
-            if index + k == len(nums):
-                break
-        return sub_index
+        help_list = nums[0:len(nums)-k+1:1]
+        min_value = min(help_list)
+        return nums.index(min_value)
 
 
 def main():
     solution = Solution()
     # print(solution.singleNumber([1,1,0,-2147483648]))
     print(solution.mostCompetitive2([71, 18, 52, 29, 55, 73, 24], 3))
-    print(solution.mostCompetitive([71, 18, 52, 29, 55, 73, 24], 3))
+    print(solution.mostCompetitive3([71, 18, 52, 29, 55, 73, 24], 3))
 
 
 if __name__ == "__main__":
