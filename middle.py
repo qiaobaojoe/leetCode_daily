@@ -364,6 +364,7 @@ class Solution:
             while len(res) > 0 and len(nums) - i + len(res) > k and res[-1] > x:
                 res.pop()
             res.append(x)
+            print(f"res = {res},i= {i}")
         return res[:k]
 
     def mostCompetitive3(self, nums: List[int], k: int) -> List[int]:
@@ -387,9 +388,10 @@ class Solution:
 
 def main():
     solution = Solution()
-    # print(solution.singleNumber([1,1,0,-2147483648]))
+    # print(solution.singleNumber([1,1,0,-2147483648])) 
     print(solution.mostCompetitive2([71, 18, 52, 29, 55, 73, 24], 3))
-    print(solution.mostCompetitive3([71, 18, 52, 29, 55, 73, 24], 3))
+    # print(solution.mostCompetitive3([71, 18, 52, 29, 55, 73, 24], 3))
+  
 
 
 if __name__ == "__main__":
