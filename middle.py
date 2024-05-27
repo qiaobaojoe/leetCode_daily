@@ -372,26 +372,42 @@ class Solution:
         # 所以为题就是找到可以裁剪出子序列范围内，最小的值
         ans = []
         help_list = nums[::1]
-        for i in range(k,0,-1):
-            sub_index = self.most_competitive_support(help_list,i)
+        for i in range(k, 0, -1):
+            sub_index = self.most_competitive_support(help_list, i)
             ans.append(help_list[sub_index])
-            help_list = help_list[sub_index+1::]
+            help_list = help_list[sub_index + 1 : :]
         return ans
 
     def most_competitive_support(self, nums: List[int], k: int) -> int:
         # 对上面方法进行剪枝,第一个不相同的数组,越小就越好.
         # 所以为题就是找到可以裁剪出子序列范围内，最小的值
-        help_list = nums[0:len(nums)-k+1:1]
+        help_list = nums[0 : len(nums) - k + 1 : 1]
         min_value = min(help_list)
         return nums.index(min_value)
+
+    def missingRolls(self, rolls: List[int], mean: int, n: int) -> List[int]:
+        # 先判断是否可行
+        missing_rolls = []
+        m = len(rolls)
+        diff = (m + n) * mean - sum(rolls)
+        if diff > n * 6 or diff < n:
+            print("不可能")
+            return missing_rolls
+        div = diff // n
+        remainder = diff % n 
+        for i in range(n):
+            if remainder > 0 :
+                missing_rolls.append(div+1)
+                remainder -=1
+            else : 
+                missing_rolls.append(div)
+        return missing_rolls
 
 
 def main():
     solution = Solution()
-    # print(solution.singleNumber([1,1,0,-2147483648])) 
-    print(solution.mostCompetitive2([71, 18, 52, 29, 55, 73, 24], 3))
-    # print(solution.mostCompetitive3([71, 18, 52, 29, 55, 73, 24], 3))
-  
+    # print(solution.singleNumber([1,1,0,-2147483648]))
+    print(solution.missingRolls([3,2,4,3], 4, 2))
 
 
 if __name__ == "__main__":
