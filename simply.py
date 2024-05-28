@@ -75,8 +75,16 @@ class Solution:
     def theMaximumAchievableX(self, num: int, t: int) -> int:
         return num + 2 * t
 
+    def findPeaks(self, mountain: List[int]) -> List[int]:
+        ans = []
+        # 峰值 严格的大于相邻的元素。通过一下遍历获取结果，我想到双指针
+        for i in range(1, len(mountain) - 1):
+            if mountain[i] > mountain[i - 1] and mountain[i] > mountain[i + 1]:
+                ans.append(i)
+        return ans
+
 
 if __name__ == "__main__":
     solution = Solution()
-    dis = solution.countTestedDevices([1, 1, 2, 1, 3])
+    dis = solution.findPeaks([1,4,3,8,5])
     print(dis)
