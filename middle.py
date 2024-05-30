@@ -394,20 +394,39 @@ class Solution:
             print("不可能")
             return missing_rolls
         div = diff // n
-        remainder = diff % n 
+        remainder = diff % n
         for i in range(n):
-            if remainder > 0 :
-                missing_rolls.append(div+1)
-                remainder -=1
-            else : 
+            if remainder > 0:
+                missing_rolls.append(div + 1)
+                remainder -= 1
+            else:
                 missing_rolls.append(div)
         return missing_rolls
+
+    def maximumLength(self, s: str) -> int:
+        # 暴力构建所有的子字符串，放在hashMap中统计结果
+        sub_str_counter = Counter()
+        s_len = len(s)
+        for i in range(1, s_len + 1):
+            for k in range(s_len - i + 1):
+                cur_sub = s[k : k + i]
+                char_set = set(cur_sub)
+                if len(char_set) == 1:
+                    sub_str_counter[cur_sub] += 1
+        sorted_sub= sub_str_counter.most_common()
+        ans = -1
+        for sub,count in sorted_sub:
+            if count < 3 :
+                break
+            ans = max(ans,len(sub))
+
+        return ans
 
 
 def main():
     solution = Solution()
     # print(solution.singleNumber([1,1,0,-2147483648]))
-    print(solution.missingRolls([3,2,4,3], 4, 2))
+    print(solution.maximumLength("cccerrrecdcdccedecdcccddeeeddcdcddedccdceeedccecde"))
 
 
 if __name__ == "__main__":
