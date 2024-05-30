@@ -413,20 +413,70 @@ class Solution:
                 char_set = set(cur_sub)
                 if len(char_set) == 1:
                     sub_str_counter[cur_sub] += 1
-        sorted_sub= sub_str_counter.most_common()
+        sorted_sub = sub_str_counter.most_common()
         ans = -1
-        for sub,count in sorted_sub:
-            if count < 3 :
+        for sub, count in sorted_sub:
+            if count < 3:
                 break
-            ans = max(ans,len(sub))
+            ans = max(ans, len(sub))
 
+        return ans
+
+    def maximumLengthV2(self, s: str) -> int:
+        # 哈哈，一切都是如此的巧妙，昨天没有改进暴力解法的版本，今天的题目就是改进。暴力解法会超时
+        # 二分查找的方法我理解不了
+        # 统计每个字符的连续最大长度  连续长度为 n 可以拆分成(k+1)个n-k长度的子串
+        char_set = set(s)
+        char_length = {char: [] for char in char_set}
+
+        cur_l = 1
+        len_s = len(s)
+        for i, char in enumerate(s):
+            if i < len_s -1 :
+                if char != s[i+1]:
+                    char_length[char].append(cur_l)
+                    cur_l = 1
+                else:
+                    cur_l +=1
+            else :
+                # 最后一个字符的判断
+                if char != s[i-1]:
+                    # char_length[s[i-1]].append(cur_l)
+                    char_length[char].append(1)
+                else:
+                    char_length[char].append(cur_l)
+
+        print(char_length)
+        ans = -1
+        for char, len_list in char_length.items():
+            len_list_copy = len_list[::]
+            l_max = max(len_list_copy)
+            while l_max > 1:
+                len_count = len_list_copy.count(l_max)
+                if len_count >= 3:
+                    ans = max(ans, l_max)
+                    break
+                else:
+                    print("拆分最长数组")
+                    for _ in range(len_count):
+                        len_list_copy.remove(l_max)
+                        len_list_copy.append(l_max - 1) 
+                        len_list_copy.append(l_max - 1) 
+                    print(len_list_copy)
+                    l_max -= 1
+
+
+            if len(len_list_copy) >= 3:
+                ans = max(ans, 1)
         return ans
 
 
 def main():
+
     solution = Solution()
-    # print(solution.singleNumber([1,1,0,-2147483648]))
-    print(solution.maximumLength("cccerrrecdcdccedecdcccddeeeddcdcddedccdceeedccecde"))
+    # print(solution.maximumLength("cccerrrecdcdccedecdcccddeeeddcdcddedccdceeedccecde"))
+    # print(solution.maximumLengthV2("cccerrrecdcdccedecdcccddeeeddcdcddedccdceeedccecde"))
+    print(solution.maximumLengthV2("bbc"))
 
 
 if __name__ == "__main__":
