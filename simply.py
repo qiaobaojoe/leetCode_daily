@@ -83,8 +83,28 @@ class Solution:
                 ans.append(i)
         return ans
 
+    def distributeCandies(self, candies: int, num_people: int) -> List[int]:
+        ans = [0] * num_people
+        dis_index = 0
+        dis_num = 1
+        
+        while candies > 0 :
+            print(f"dis_index={dis_index},dis_num={dis_num},candies={candies},ans={ans}")
+            if candies >= dis_num:
+                ans[dis_index] +=  dis_num
+                candies -= dis_num
+            else:
+                ans[dis_index] += candies
+                candies = 0
+                break
+                
+            dis_num += 1
+            dis_index += 1 
+            dis_index = dis_index % num_people            
+        return ans
+
 
 if __name__ == "__main__":
     solution = Solution()
-    dis = solution.findPeaks([1,4,3,8,5])
+    dis = solution.distributeCandies(60,4)
     print(dis)
