@@ -87,24 +87,42 @@ class Solution:
         ans = [0] * num_people
         dis_index = 0
         dis_num = 1
-        
-        while candies > 0 :
-            print(f"dis_index={dis_index},dis_num={dis_num},candies={candies},ans={ans}")
+
+        while candies > 0:
+            print(
+                f"dis_index={dis_index},dis_num={dis_num},candies={candies},ans={ans}"
+            )
             if candies >= dis_num:
-                ans[dis_index] +=  dis_num
+                ans[dis_index] += dis_num
                 candies -= dis_num
             else:
                 ans[dis_index] += candies
                 candies = 0
                 break
-                
+
             dis_num += 1
-            dis_index += 1 
-            dis_index = dis_index % num_people            
+            dis_index += 1
+            dis_index = dis_index % num_people
         return ans
+
+    def minimumSteps(self, s: str) -> int:
+        step = 0
+        black_idx = []
+        for inx, val in enumerate(s):
+            if "1" == val:
+                black_idx.append(inx)
+
+        if len(black_idx) == 0:
+            return step
+        right_pos = len(s) - 1
+        for inx in black_idx[::-1]:
+            step += right_pos - inx
+            right_pos -= 1
+
+        return step
 
 
 if __name__ == "__main__":
     solution = Solution()
-    dis = solution.distributeCandies(60,4)
+    dis = solution.minimumSteps("100")
     print(dis)
