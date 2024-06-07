@@ -121,8 +121,18 @@ class Solution:
 
         return step
 
+    def maxOperations(self, nums: List[int]) -> int:
+        times = 1
+        score = nums[0] + nums[1]
+        while times * 2 + 2 <= len(nums):
+            if score == (nums[times * 2] + nums[times * 2 + 1]):
+                times += 1
+            else:
+                break
+        return times
+
 
 if __name__ == "__main__":
     solution = Solution()
-    dis = solution.minimumSteps("100")
+    dis = solution.maxOperations([1,1,1,1,1,1])
     print(dis)
