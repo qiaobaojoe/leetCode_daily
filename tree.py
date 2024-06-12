@@ -103,6 +103,42 @@ class Solution:
         if root.right:
             self.inorder_traversal_help(root.right,ans)
 
+    
+    def postorder_traversal(self, root: Optional[TreeNode]) -> List[int]:
+        # 左右中 后序遍历=[4, 5, 2, 6, 7, 3, 1]
+        ans = []
+        if not root:
+            return ans
+        "递归"
+        # self.postorder_traversal_help(root, ans)
+        node_stack = []
+        while root or len(node_stack) > 0 : 
+            if root:
+                node_stack.append(root)
+                root = root.left
+            else:
+                cur = node_stack.pop()
+                if cur.right:
+                    root = cur.right
+                    cur.right = None
+                    node_stack.append(cur)
+                else:
+                    ans.append(cur.val)
+        
+        return ans
+
+    def postorder_traversal_help(self, root: Optional[TreeNode], ans: List[int]):
+        # 左右中
+        "递归写法"
+        if root.left:
+            self.postorder_traversal_help(root.left,ans)
+        if root.right:
+            self.postorder_traversal_help(root.right,ans)
+        ans.append(root.val)
+
+    
+    
+
 
 def tree():
     # 初始化二叉树
@@ -126,6 +162,7 @@ def tree():
     print(f"层序遍历分层={solution.level_order(n1)}")
     print(f"前序遍历={solution.preorder_traversal(n1)}")
     print(f"中序遍历={solution.inorder_traversal(n1)}")
+    print(f"后序遍历={solution.postorder_traversal(n1)}")
 
 
 def main():
