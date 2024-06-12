@@ -21,27 +21,27 @@ class Solution:
         while len(help_list) > 0:
             cur = help_list.popleft()
             ans.append(cur.val)
-            if cur.left: 
+            if cur.left:
                 help_list.append(cur.left)
-            if cur.right: 
+            if cur.right:
                 help_list.append(cur.right)
         return ans
-    
+
     def level_order(self, root: Optional[TreeNode]) -> List[List[int]]:
         ans = []
         if not root:
             return ans
         level_node_list = []
         level_node_list.append(root)
-        while len(level_node_list) > 0 :
-            level_val_list = [] 
+        while len(level_node_list) > 0:
+            level_val_list = []
             next_level_node_list = []
             for node in level_node_list:
                 level_val_list.append(node.val)
                 if node.left:
-                    next_level_node_list.append( node.left)
+                    next_level_node_list.append(node.left)
                 if node.right:
-                    next_level_node_list.append( node.right)
+                    next_level_node_list.append(node.right)
             ans.append(level_val_list)
             level_node_list = next_level_node_list
         return ans
@@ -76,6 +76,33 @@ class Solution:
         if root.right:
             self.preorder_traversal_help(root.right, ans)
 
+    def inorder_traversal(self, root: Optional[TreeNode]) -> List[int]:
+        # 左中右
+        ans = []
+        if not root:
+            return ans
+        "递归"
+        # self.inorder_traversal_help(root, ans)
+        node_stack = []
+        while root or len(node_stack) > 0 :
+            if root:
+                node_stack.append(root)
+                root = root.left
+            else :
+                cur = node_stack.pop()
+                ans.append(cur.val)
+                root = cur.right
+        return ans
+
+    def inorder_traversal_help(self, root: Optional[TreeNode], ans: List[int]):
+        # 左中右
+        "递归写法"
+        if root.left:
+            self.inorder_traversal_help(root.left,ans)
+        ans.append(root.val)
+        if root.right:
+            self.inorder_traversal_help(root.right,ans)
+
 
 def tree():
     # 初始化二叉树
@@ -98,6 +125,7 @@ def tree():
     print(f"层序遍历={solution.level_traversal(n1)}")
     print(f"层序遍历分层={solution.level_order(n1)}")
     print(f"前序遍历={solution.preorder_traversal(n1)}")
+    print(f"中序遍历={solution.inorder_traversal(n1)}")
 
 
 def main():
