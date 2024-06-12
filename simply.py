@@ -130,6 +130,13 @@ class Solution:
             else:
                 break
         return times
+    
+    def accountBalanceAfterPurchase(self, purchaseAmount: int) -> int:
+        remand = purchaseAmount % 10 
+        time = purchaseAmount // 10
+        if remand >= 5 :
+            time += 1 
+        return 100 - 10 * time
 
 
 if __name__ == "__main__":

@@ -469,6 +469,62 @@ class Solution:
             if len(len_list_copy) >= 3:
                 ans = max(ans, 1)
         return ans
+    
+    def countBattleships(self, border: List[List[str]]) -> int:
+        ship_direction = []
+        x_m = len(border)
+        y_n = len(border[0])
+        for y, x_list in enumerate(border):
+            for x, cur in enumerate(x_list):
+                if "X" == cur:
+                    ship_direction.append((x, y))
+        ship_count = 0
+        print(f"ship_direction ={ship_direction}")
+        while len(ship_direction) > 0:
+            x, y = ship_direction.pop()
+            print(f"x ={x},y={y}")
+            ship_count += 1
+            around = []
+            self.set_around(x, y, around, x_m, y_n)
+
+            while len(around) > 0:
+                around_c = around[::]
+                for ax, ay in around_c:
+                    print(f"ax ={ax},ay={ay}")
+                    around.remove((ax, ay))
+                    if ship_direction.count((ax, ay)) > 0:
+                        ship_direction.remove((ax, ay))
+                        self.set_around(ax, ay, around, x_m, y_n)
+
+        return ship_count
+
+    def set_around(self, x: int, y: int, around: List[int], x_m: int, y_n: int) -> None:
+        # 左
+        if x != 0:
+            around.append((x - 1, y))
+        # 右
+        if x != y_n - 1:
+            around.append((x + 1, y))
+        # 上
+        if y != 0:
+            around.append((x, y - 1))
+        # 下
+        if y != x_m - 1:
+            around.append((x, y + 1))
+
+    def countBattleships_2(self, border: List[List[str]]) -> int:
+        # 本来是不想重写官方的答案，但是他的解法实在太巧妙了。
+        # 遍历数组是有顺序的 左->右,上->下 当前为X，如果左边和上面都不是X则表明这是一个新的战舰
+        ans = 0
+        for y, x_list in enumerate(border):
+
+            for x, cur in enumerate(x_list):
+                if "X" == cur:
+                    if (x == 0 or border[y][x - 1] != "X") and (
+                        y == 0 or border[y - 1][x] != "X"
+                        ):
+                        ans += 1
+        return ans
 
 
 def main():
