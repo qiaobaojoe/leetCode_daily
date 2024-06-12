@@ -82,6 +82,20 @@ class Solution:
         if y != x_m - 1:
             around.append((x, y + 1))
 
+    def countBattleships_2(self, border: List[List[str]]) -> int:
+        # 本来是不想重写官方的答案，但是他的解法实在太巧妙了。
+        # 遍历数组是有顺序的 左->右,上->下 当前为X，如果左边和上面都不是X则表明这是一个新的战舰
+        ans = 0
+        for y, x_list in enumerate(border):
+
+            for x, cur in enumerate(x_list):
+                if "X" == cur:
+                    if (x == 0 or border[y][x - 1] != "X") and (
+                        y == 0 or border[y - 1][x] != "X"
+                        ):
+                        ans += 1
+        return ans
+
 
 def tree():
     # 初始化二叉树
@@ -107,7 +121,7 @@ def tree():
 def main():
     solution = Solution()
     print(
-        solution.countBattleships(
+        solution.countBattleships_2(
             [["X", ".", ".", "X"], [".", ".", ".", "X"], [".", ".", ".", "X"]]
         )
     )
