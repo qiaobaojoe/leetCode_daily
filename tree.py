@@ -12,7 +12,7 @@ class TreeNode:
 class Solution:
 
     def level_traversal(self, root: Optional[TreeNode]) -> List[int]:
-        # 层序遍历 广度搜索
+        # 层序遍历 广度搜索 没有递归的写法 广度搜索一定是借助列表的
         ans = []
         if not root:
             return ans
