@@ -1,4 +1,6 @@
-from typing import List
+from typing import List, Optional
+
+from tree import TreeNode
 
 
 class Solution:
@@ -137,6 +139,22 @@ class Solution:
         if remand >= 5 :
             time += 1 
         return 100 - 10 * time
+    
+    def isUnivalTree(self,root:Optional[TreeNode]) -> bool:
+        val = root.val
+        # 最简单的遍历二叉树的方式，前序遍历
+        node_stack = []
+        node_stack.append(root)
+        while len(node_stack) > 0 :
+            cur = node_stack.pop()
+            if val != cur.val:
+                return False
+            if cur.left:
+                node_stack.append(cur.left)
+            if cur.right:
+                node_stack.append(cur.right)
+            
+        return True
 
 
 if __name__ == "__main__":
