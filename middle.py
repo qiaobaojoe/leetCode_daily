@@ -1,94 +1,23 @@
-from bisect import bisect_right
 from collections import Counter, defaultdict
 from typing import List
 
 
-class SnapshotArray:
-
-    def __init__(self, length: int) -> None:
-        self.array = [[] for _ in range(length)]
-        self.snap_id = 0
-
-    def set(self, index: int, val: int) -> None:
-        self.array[index].append((self.snap_id, val))
-
-    def snap(self) -> int:
-        self.snap_id += 1
-        return self.snap_id - 1
-
-    def get(self, index: int, snap_id: int) -> int:
-        index_array = self.array[index]
-        if len(index_array) == 0:
-            return 0
-        if snap_id < 0:
-            return 0
-        right = SnapshotArray.bisect_right([a for (a, b) in index_array], snap_id)
-        return index_array[right][1] if right > -1 else 0
-
-    # 给一个有序数组，但是包含重复数据。传入目标值，如果存在找到最右侧的索引，不存在，找到比它小的最接近值的最右侧索引
-    def searchRight(snap_arry, target: int) -> int:
-
-        bisect_right()
-        print(snap_arry, target)
-        l = 0
-        r = len(snap_arry) - 1
-        if snap_arry[l] > target:
-            return -1
-        if snap_arry[r] < target:
-            return snap_arry[r]
-
-        result = -1
-        while l < r:
-            print("二分查找迭代 l={},r = {}".format(l, r))
-            m = (l + r) // 2
-            if snap_arry[m] == target:
-                result = m
-                l = m + 1
-                continue
-            if snap_arry[m] < target:
-                l = m + 1
-                continue
-            if snap_arry[m] > target:
-                r = m - 1
-                continue
-
-        print("退出 l={},r = {}".format(l, r))
-        if snap_arry[max(l, r)] == target:
-            return max(l, r)
-
-        if result != -1:
-            return result
-        else:
-            if snap_arry[min(l, r)] > target:
-                return min(l, r) - 1
-            else:
-                return min(l, r)
-
-    # Your SnapshotArray object will be instantiated and called as such:
-    # obj = SnapshotArray(length)
-    # obj.set(index,val)
-    # param_2 = obj.snap()
-    # param_3 = obj.get(index,snap_id)
-
-
 class Solution:
 
-    def baseNeg2(self, n: int) -> str:
+    def base_neg2(self, n: int) -> str:
         if n == 0:
             return "0"
 
         result = []
         while n != 0:
-            print("进入循环 n = {}".format(n))
+            print(f"进入循环 n = {n}")
             remainder = n % -2
-            print("进入循环 remainder = {}".format(remainder))
+            print(f"进入循环 remainder = {remainder}")
             result.append(str(abs(remainder)))
             if remainder < 0:
                 n = n // -2 + 1
             else:
                 n = n // -2
-        print("退出循环 n = {}".format(n))
-
         return "".join(result[::-1])
 
     def base2(self, n: int) -> str:
@@ -105,7 +34,7 @@ class Solution:
 
         return result[::-1]
 
-    def singleNumber(self, nums: List[int]) -> List[int]:
+    def single_number(self, nums: List[int]) -> List[int]:
         xor_sum = 0
         for num in nums:
             xor_sum ^= num
@@ -121,7 +50,7 @@ class Solution:
                 num2 ^= num
         return [num1, num2]
 
-    def wateringPlants(self, plants: List[int], capacity: int) -> int:
+    def watering_plants(self, plants: List[int], capacity: int) -> int:
         step_sum = 0
         watering_index = 0
         cur_capacity = capacity
@@ -139,7 +68,7 @@ class Solution:
                     break
         return step_sum
 
-    def minimumRefill(self, plants: List[int], capacityA: int, capacityB: int) -> int:
+    def minimum_refill(self, plants: List[int], capacityA: int, capacityB: int) -> int:
         # 双端队列，每次步进一
         refill_sum = 0
         a_index = 0
@@ -169,7 +98,7 @@ class Solution:
 
         return refill_sum
 
-    def garbageCollection(self, garbage: List[str], travel: List[int]) -> int:
+    def garbage_collection(self, garbage: List[str], travel: List[int]) -> int:
         return (
             self.garbage_type_sum(garbage, travel, "M")
             + self.garbage_type_sum(garbage, travel, "P")
@@ -188,10 +117,10 @@ class Solution:
                 travel_index = index
 
         time_sum += sum(travel[:travel_index])
-        print("garbage_type = {}, time_sum ={}".format(garbage_type, time_sum))
+        print(f"garbage_type = {garbage_type}, time_sum ={time_sum}")
         return time_sum
 
-    def orangesRotting(self, grid: List[List[int]]) -> int:
+    def oranges_rotting(self, grid: List[List[int]]) -> int:
         # 深度优先算法，用一个列表记录下来所有分叉
         # 确定下来图的边间
         M = len(grid)
@@ -208,10 +137,10 @@ class Solution:
                 if grid[y][x] == 2:
                     queue.append((x, y))
 
-        round = 0
+        round_iterable = 0
         while count > 0 and len(queue) > 0:
-            round += 1
-            for i in range(len(queue)):
+            round_iterable += 1
+            for _ in range(len(queue)):
                 # 上
                 (x, y) = queue.pop(0)
                 if y - 1 >= 0 and grid[y - 1][x] == 1:
@@ -237,9 +166,9 @@ class Solution:
         if count > 0:
             return -1
         else:
-            return round
+            return round_iterable
 
-    def maxProfitAssignment(
+    def max_profit_assignment(
         self, difficulty: List[int], profit: List[int], worker: List[int]
     ) -> int:
         # 不是动态规划，每个工人的收益是独立的，不会互相影响
@@ -271,7 +200,7 @@ class Solution:
 
         return sum_profit
 
-    def findWinners(self, matches: List[List[int]]) -> List[List[int]]:
+    def find_winners(self, matches: List[List[int]]) -> List[List[int]]:
         no_lose = []
         one_lose = []
 
@@ -290,7 +219,7 @@ class Solution:
 
         return [no_lose, one_lose]
 
-    def longestEqualSubarray(self, nums: List[int], k: int) -> int:
+    def longest_equal_subarray(self, nums: List[int], k: int) -> int:
         pos_map = defaultdict(list)
         for i, num in enumerate(nums):
             pos_map[num].append(i)
@@ -319,7 +248,7 @@ class Solution:
 
         return cur_longest
 
-    def mostCompetitive_exhaustion(self, nums: List[int], k: int) -> List[int]:
+    def most_competitive_exhaustion(self, nums: List[int], k: int) -> List[int]:
 
         sub_array_list = self.all_sub_array(nums, k)
         # 得到所有的子序列尝试,遍历比较得到结果
@@ -358,7 +287,7 @@ class Solution:
 
         return sub_array_list
 
-    def mostCompetitive2(self, nums: List[int], k: int) -> List[int]:
+    def most_competitive2(self, nums: List[int], k: int) -> List[int]:
         res = []
         for i, x in enumerate(nums):
             while len(res) > 0 and len(nums) - i + len(res) > k and res[-1] > x:
@@ -367,7 +296,7 @@ class Solution:
             print(f"res = {res},i= {i}")
         return res[:k]
 
-    def mostCompetitive3(self, nums: List[int], k: int) -> List[int]:
+    def most_competitive3(self, nums: List[int], k: int) -> List[int]:
         # 对上面方法进行剪枝,第一个不相同的数组,越小就越好.
         # 所以为题就是找到可以裁剪出子序列范围内，最小的值
         ans = []
@@ -385,7 +314,7 @@ class Solution:
         min_value = min(help_list)
         return nums.index(min_value)
 
-    def missingRolls(self, rolls: List[int], mean: int, n: int) -> List[int]:
+    def missing_rolls(self, rolls: List[int], mean: int, n: int) -> List[int]:
         # 先判断是否可行
         missing_rolls = []
         m = len(rolls)
@@ -395,7 +324,7 @@ class Solution:
             return missing_rolls
         div = diff // n
         remainder = diff % n
-        for i in range(n):
+        for _ in range(n):
             if remainder > 0:
                 missing_rolls.append(div + 1)
                 remainder -= 1
@@ -403,7 +332,7 @@ class Solution:
                 missing_rolls.append(div)
         return missing_rolls
 
-    def maximumLength(self, s: str) -> int:
+    def maximum_length(self, s: str) -> int:
         # 暴力构建所有的子字符串，放在hashMap中统计结果
         sub_str_counter = Counter()
         s_len = len(s)
@@ -422,7 +351,7 @@ class Solution:
 
         return ans
 
-    def maximumLengthV2(self, s: str) -> int:
+    def maximum_length_v2(self, s: str) -> int:
         # 哈哈，一切都是如此的巧妙，昨天没有改进暴力解法的版本，今天的题目就是改进。暴力解法会超时
         # 二分查找的方法我理解不了
         # 统计每个字符的连续最大长度  连续长度为 n 可以拆分成(k+1)个n-k长度的子串
@@ -432,15 +361,15 @@ class Solution:
         cur_l = 1
         len_s = len(s)
         for i, char in enumerate(s):
-            if i < len_s -1 :
-                if char != s[i+1]:
+            if i < len_s - 1:
+                if char != s[i + 1]:
                     char_length[char].append(cur_l)
                     cur_l = 1
                 else:
-                    cur_l +=1
-            else :
+                    cur_l += 1
+            else:
                 # 最后一个字符的判断
-                if char != s[i-1]:
+                if char != s[i - 1]:
                     # char_length[s[i-1]].append(cur_l)
                     char_length[char].append(1)
                 else:
@@ -456,21 +385,20 @@ class Solution:
                 if len_count >= 3:
                     ans = max(ans, l_max)
                     break
-                else:
-                    print("拆分最长数组")
-                    for _ in range(len_count):
-                        len_list_copy.remove(l_max)
-                        len_list_copy.append(l_max - 1) 
-                        len_list_copy.append(l_max - 1) 
-                    print(len_list_copy)
-                    l_max -= 1
 
+                print("拆分最长数组")
+                for _ in range(len_count):
+                    len_list_copy.remove(l_max)
+                    len_list_copy.append(l_max - 1)
+                    len_list_copy.append(l_max - 1)
+                print(len_list_copy)
+                l_max -= 1
 
             if len(len_list_copy) >= 3:
                 ans = max(ans, 1)
         return ans
-    
-    def countBattleships(self, border: List[List[str]]) -> int:
+
+    def count_battleships(self, border: List[List[str]]) -> int:
         ship_direction = []
         x_m = len(border)
         y_n = len(border[0])
@@ -512,7 +440,7 @@ class Solution:
         if y != x_m - 1:
             around.append((x, y + 1))
 
-    def countBattleships_2(self, border: List[List[str]]) -> int:
+    def count_battleships_2(self, border: List[List[str]]) -> int:
         # 本来是不想重写官方的答案，但是他的解法实在太巧妙了。
         # 遍历数组是有顺序的 左->右,上->下 当前为X，如果左边和上面都不是X则表明这是一个新的战舰
         ans = 0
@@ -522,7 +450,7 @@ class Solution:
                 if "X" == cur:
                     if (x == 0 or border[y][x - 1] != "X") and (
                         y == 0 or border[y - 1][x] != "X"
-                        ):
+                    ):
                         ans += 1
         return ans
 
@@ -532,7 +460,7 @@ def main():
     solution = Solution()
     # print(solution.maximumLength("cccerrrecdcdccedecdcccddeeeddcdcddedccdceeedccecde"))
     # print(solution.maximumLengthV2("cccerrrecdcdccedecdcccddeeeddcdcddedccdceeedccecde"))
-    print(solution.maximumLengthV2("bbc"))
+    print(solution.maximum_length_v2("bbc"))
 
 
 if __name__ == "__main__":

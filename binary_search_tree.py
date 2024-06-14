@@ -4,10 +4,10 @@ from tree import TreeNode
 
 
 class BinarySearchTree:
+    
     def __init__(self):
         self._root: Optional[TreeNode] = None
 
-    # 验证过了，没有问题
     def search(self, val: int) -> Optional[TreeNode]:
         if self._root is None:
             return None
@@ -88,7 +88,7 @@ class BinarySearchTree:
             tem_node = rirht_min_node
 
             if right_min_pre_node:
-            # 右分支的最小值节点，不是删除元素的子节点，左边肯定是没有节点了，右边的节点需要替换它的位置
+                # 右分支的最小值节点，不是删除元素的子节点，左边肯定是没有节点了，右边的节点需要替换它的位置
                 right_min_pre_node.left = tem_node.right
                 tem_node.right = search_node.right
             # 右分支的最小值节点，是删除元素的子节点，直接提上来就可以.处理右侧要避免环。
@@ -140,52 +140,48 @@ class BinarySearchTree:
         return ans
 
 
-class Solution:
-    def main():
-        search_tree = BinarySearchTree()
-        search_tree.insert(50)
-        search_tree.insert(30)
-        search_tree.insert(70)
-        search_tree.insert(40)
-        search_tree.insert(60)
-        search_tree.insert(80)
-        
-        print(f"层序遍历={search_tree.level_order_list()}")
-        print("删除50")
-        search_tree.remove(50)
-        print(f"层序遍历={search_tree.level_order_list()}")
-        print(f"中序遍历={search_tree.asc_order_list()}")
-        # search_tree.insert(8)
-        # search_tree.insert(12)
-        # search_tree.insert(4)
-        # search_tree.insert(6)
-        # search_tree.insert(2)
-        # search_tree.insert(10)
-        # search_tree.insert(14)
-        # search_tree.insert(1)
-        # search_tree.insert(3)
-        # search_tree.insert(5)
-        # search_tree.insert(7)
-        # search_tree.insert(11)
-        # search_tree.insert(9)
-        # search_tree.insert(15)
-        # search_tree.insert(13)
-        # print(f"层序遍历={search_tree.level_order_list()}")
-        # print(f"中序遍历={search_tree.asc_order_list()}")
-        # search_tree.remove(1)
-        # print("删除1")
-        # print(f"层序遍历={search_tree.level_order_list()}")
-        # print(f"中序遍历={search_tree.asc_order_list()}")
+def main():
+    search_tree = BinarySearchTree()
+    search_tree.insert(50)
+    search_tree.insert(30)
+    search_tree.insert(70)
+    search_tree.insert(40)
+    search_tree.insert(60)
+    search_tree.insert(80)
+    print(f"层序遍历={search_tree.level_order_list()}")
+    print("删除50")
+    search_tree.remove(50)
+    print(f"层序遍历={search_tree.level_order_list()}")
+    print(f"中序遍历={search_tree.asc_order_list()}")
+    # search_tree.insert(8)
+    # search_tree.insert(12)
+    # search_tree.insert(4)
+    # search_tree.insert(6)
+    # search_tree.insert(2)
+    # search_tree.insert(10)
+    # search_tree.insert(14)
+    # search_tree.insert(1)
+    # search_tree.insert(3)
+    # search_tree.insert(5)
+    # search_tree.insert(7)
+    # search_tree.insert(11)
+    # search_tree.insert(9)
+    # search_tree.insert(15)
+    # search_tree.insert(13)
+    # print(f"层序遍历={search_tree.level_order_list()}")
+    # print(f"中序遍历={search_tree.asc_order_list()}")
+    # search_tree.remove(1)
+    # print("删除1")
+    # print(f"层序遍历={search_tree.level_order_list()}")
+    # print(f"中序遍历={search_tree.asc_order_list()}")
+    # search_tree.remove(2)
+    # print("删除2")
+    # print(f"层序遍历={search_tree.level_order_list()}")
+    # print(f"中序遍历={search_tree.asc_order_list()}")
+    # search_tree.remove(12)
+    # print("删除12")
+    # print(f"层序遍历={search_tree.level_order_list()}")
+    # print(f"中序遍历={search_tree.asc_order_list()}")
 
-        # search_tree.remove(2)
-        # print("删除2")
-        # print(f"层序遍历={search_tree.level_order_list()}")
-        # print(f"中序遍历={search_tree.asc_order_list()}")
-
-        # search_tree.remove(12)
-        # print("删除12")
-        # print(f"层序遍历={search_tree.level_order_list()}")
-        # print(f"中序遍历={search_tree.asc_order_list()}")
-
-    if __name__ == "__main__":
-        main()
+if __name__ == "__main__":
+    main()
