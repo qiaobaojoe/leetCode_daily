@@ -79,24 +79,20 @@ class BinarySearchTree:
             tem_node = search_node.left
         else:
             # 两个节点都有值 这时候有两种选择，左分支的最大值 或者 右分支的最小值
-            # 这里选择左分支最大值策略
-            left_max_node = search_node.left
-            left_max_pre_node = None
-            while left_max_node.right:
-                left_max_pre_node = left_max_node
-                left_max_node = left_max_node.right
-            tem_node = left_max_node
+            # 这里选择右分支最小值策略
+            rirht_min_node = search_node.right
+            right_min_pre_node = None
+            while rirht_min_node.left:
+                right_min_pre_node = rirht_min_node
+                rirht_min_node = rirht_min_node.left
+            tem_node = rirht_min_node
 
-            if left_max_pre_node:
-                if left_max_node.left:
-                    left_max_pre_node.right = left_max_node.left
-                else:
-                    left_max_pre_node.right = None
-                left_max_node.left = search_node.left
-            else:
-                left_max_node.left = None
-
-            left_max_node.right = search_node.right
+            if right_min_pre_node:
+            # 右分支的最小值节点，不是删除元素的子节点，左边肯定是没有节点了，右边的节点需要替换它的位置
+                right_min_pre_node.left = tem_node.right
+                tem_node.right = search_node.right
+            # 右分支的最小值节点，是删除元素的子节点，直接提上来就可以.处理右侧要避免环。
+            tem_node.left = search_node.left
 
         if pre_node:
             if pre_node.left and pre_node.left.val == search_node.val:
@@ -147,14 +143,16 @@ class BinarySearchTree:
 class Solution:
     def main():
         search_tree = BinarySearchTree()
-        search_tree.insert(5)
-        search_tree.insert(7)
-        search_tree.insert(6)
-        search_tree.insert(2)
-        search_tree.insert(4)
-        search_tree.insert(7)
-        search_tree.remove(5)
-        print("删除5")
+        search_tree.insert(50)
+        search_tree.insert(30)
+        search_tree.insert(70)
+        search_tree.insert(40)
+        search_tree.insert(60)
+        search_tree.insert(80)
+        
+        print(f"层序遍历={search_tree.level_order_list()}")
+        print("删除50")
+        search_tree.remove(50)
         print(f"层序遍历={search_tree.level_order_list()}")
         print(f"中序遍历={search_tree.asc_order_list()}")
         # search_tree.insert(8)
