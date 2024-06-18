@@ -155,6 +155,9 @@ class Solution:
 
         return True
 
+    def find_lus_length(self, a: str, b: str) -> int:
+        return max(len(a), len(b)) if a != b else -1
+
 
 if __name__ == "__main__":
     solution = Solution()
