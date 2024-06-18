@@ -48,12 +48,12 @@ class Solution:
 
     def preorder_traversal(self, root: Optional[TreeNode]) -> List[int]:
         # 前序遍历  中左右
-        "递归写法"
+        # 递归写法
         # ans = []
         # if root:
         #     self.preorder_traversal_help(root, ans)
         # return ans
-        "迭代写法"
+        # 迭代写法
         ans = []
         if not root:
             return ans
@@ -81,14 +81,14 @@ class Solution:
         ans = []
         if not root:
             return ans
-        "递归"
+        # 递归
         # self.inorder_traversal_help(root, ans)
         node_stack = []
-        while root or len(node_stack) > 0 :
+        while root or len(node_stack) > 0:
             if root:
                 node_stack.append(root)
                 root = root.left
-            else :
+            else:
                 cur = node_stack.pop()
                 ans.append(cur.val)
                 root = cur.right
@@ -98,21 +98,20 @@ class Solution:
         # 左中右
         "递归写法"
         if root.left:
-            self.inorder_traversal_help(root.left,ans)
+            self.inorder_traversal_help(root.left, ans)
         ans.append(root.val)
         if root.right:
-            self.inorder_traversal_help(root.right,ans)
+            self.inorder_traversal_help(root.right, ans)
 
-    
     def postorder_traversal(self, root: Optional[TreeNode]) -> List[int]:
         # 左右中 后序遍历=[4, 5, 2, 6, 7, 3, 1]
         ans = []
         if not root:
             return ans
-        "递归"
+        # 递归
         # self.postorder_traversal_help(root, ans)
         node_stack = []
-        while root or len(node_stack) > 0 : 
+        while root or len(node_stack) > 0:
             if root:
                 node_stack.append(root)
                 root = root.left
@@ -124,20 +123,17 @@ class Solution:
                     node_stack.append(cur)
                 else:
                     ans.append(cur.val)
-        
+
         return ans
 
     def postorder_traversal_help(self, root: Optional[TreeNode], ans: List[int]):
         # 左右中
         "递归写法"
         if root.left:
-            self.postorder_traversal_help(root.left,ans)
+            self.postorder_traversal_help(root.left, ans)
         if root.right:
-            self.postorder_traversal_help(root.right,ans)
+            self.postorder_traversal_help(root.right, ans)
         ans.append(root.val)
-
-    
-    
 
 
 def tree():

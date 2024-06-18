@@ -4,29 +4,28 @@ from tree import TreeNode
 
 
 class Solution:
-    def distanceTraveled(self, mainTank: int, additionTank: int) -> int:
+    def distance_traveled(self, main_tank: int, addition_tank: int) -> int:
         dis = 0
-        while mainTank > 0:
-            if mainTank >= 5:
+        while main_tank > 0:
+            if main_tank >= 5:
                 dis += 5 * 10
-                mainTank -= 5
-                if additionTank > 0:
-                    additionTank -= 1
-                    mainTank += 1
-                continue
+                main_tank -= 5
+                if addition_tank > 0:
+                    addition_tank -= 1
+                    main_tank += 1
             else:
-                dis += mainTank * 10
-                mainTank = 0
+                dis += main_tank * 10
+                main_tank = 0
         return dis
 
-    def numberOfEmployeesWhoMetTarget(self, hours: List[int], target: int) -> int:
+    def number_of_employees_who_met_target(self, hours: List[int], target: int) -> int:
         num = 0
         for hour in hours:
             if hour >= target:
                 num += 1
         return num
 
-    def makeFancyString(self, s: str) -> str:
+    def make_fancy_string(self, s: str) -> str:
         same_char = 0
         cur = ""
         result = []
@@ -52,7 +51,7 @@ class Solution:
 
         return "".join(result)
 
-    def makeFancyStringOptimize(self, s: str) -> str:
+    def make_fancy_string_optimize(self, s: str) -> str:
         count = 1
         result = []
         result.append(s[0])
@@ -67,17 +66,17 @@ class Solution:
 
         return "".join(result)
 
-    def countTestedDevices(self, batteryPercentages: List[int]) -> int:
+    def count_tested_devices(self, battery_percentages: List[int]) -> int:
         count_tested = 0
-        for device in batteryPercentages:
+        for device in battery_percentages:
             if (device - count_tested) > 0:
                 count_tested += 1
         return count_tested
 
-    def theMaximumAchievableX(self, num: int, t: int) -> int:
+    def the_maximum_achievable_x(self, num: int, t: int) -> int:
         return num + 2 * t
 
-    def findPeaks(self, mountain: List[int]) -> List[int]:
+    def find_peaks(self, mountain: List[int]) -> List[int]:
         ans = []
         # 峰值 严格的大于相邻的元素。通过一下遍历获取结果，我想到双指针
         for i in range(1, len(mountain) - 1):
@@ -85,7 +84,7 @@ class Solution:
                 ans.append(i)
         return ans
 
-    def distributeCandies(self, candies: int, num_people: int) -> List[int]:
+    def distribute_candies(self, candies: int, num_people: int) -> List[int]:
         ans = [0] * num_people
         dis_index = 0
         dis_num = 1
@@ -107,7 +106,7 @@ class Solution:
             dis_index = dis_index % num_people
         return ans
 
-    def minimumSteps(self, s: str) -> int:
+    def minimum_steps(self, s: str) -> int:
         step = 0
         black_idx = []
         for inx, val in enumerate(s):
@@ -123,7 +122,7 @@ class Solution:
 
         return step
 
-    def maxOperations(self, nums: List[int]) -> int:
+    def max_operations(self, nums: List[int]) -> int:
         times = 1
         score = nums[0] + nums[1]
         while times * 2 + 2 <= len(nums):
@@ -132,20 +131,20 @@ class Solution:
             else:
                 break
         return times
-    
-    def accountBalanceAfterPurchase(self, purchaseAmount: int) -> int:
-        remand = purchaseAmount % 10 
-        time = purchaseAmount // 10
-        if remand >= 5 :
-            time += 1 
+
+    def account_balance_after_purchase(self, purchase_amount: int) -> int:
+        remand = purchase_amount % 10
+        time = purchase_amount // 10
+        if remand >= 5:
+            time += 1
         return 100 - 10 * time
-    
-    def isUnivalTree(self,root:Optional[TreeNode]) -> bool:
+
+    def is_unival_tree(self, root: Optional[TreeNode]) -> bool:
         val = root.val
         # 最简单的遍历二叉树的方式，前序遍历
         node_stack = []
         node_stack.append(root)
-        while len(node_stack) > 0 :
+        while len(node_stack) > 0:
             cur = node_stack.pop()
             if val != cur.val:
                 return False
@@ -153,11 +152,10 @@ class Solution:
                 node_stack.append(cur.left)
             if cur.right:
                 node_stack.append(cur.right)
-            
+
         return True
 
 
 if __name__ == "__main__":
     solution = Solution()
-    dis = solution.maxOperations([1,1,1,1,1,1])
-    print(dis)
+    print(solution.maxOperations([1, 1, 1, 1, 1, 1]))
