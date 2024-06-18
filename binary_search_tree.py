@@ -4,7 +4,7 @@ from tree import TreeNode
 
 
 class BinarySearchTree:
-    
+
     def __init__(self):
         self._root: Optional[TreeNode] = None
 
@@ -182,6 +182,7 @@ def main():
     # print("删除12")
     # print(f"层序遍历={search_tree.level_order_list()}")
     # print(f"中序遍历={search_tree.asc_order_list()}")
+
 
 if __name__ == "__main__":
     main()
