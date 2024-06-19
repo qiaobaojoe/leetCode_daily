@@ -54,13 +54,13 @@ class Solution:
 
     def find_all_sub_str(self, repeat_str_list: List[str], cur: str):
         sub_stack = [cur]
-        while len(sub_stack) > 0 :
+        while len(sub_stack) > 0:
             cur = sub_stack.pop()
-            if cur not  in repeat_str_list:
+            if cur not in repeat_str_list:
                 repeat_str_list.append(cur)
-                if len(cur) > 1 :
+                if len(cur) > 1:
                     for i in range(len(cur)):
-                        spit_str = cur[:i]+cur[i+1:]
+                        spit_str = cur[:i] + cur[i + 1 :]
                         if spit_str not in sub_stack:
                             sub_stack.append(spit_str)
 
