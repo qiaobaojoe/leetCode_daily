@@ -1,4 +1,3 @@
-from collections import Counter
 import re
 from typing import List
 
@@ -6,6 +5,9 @@ from typing import List
 class Solution:
 
     def discount_price(self, sentence: str, discount: int) -> str:
+        """
+        le
+        """
         word_list = sentence.split(" ")
         price_pattern = r"\$[1-9][0-9]*$"
         for i, word in enumerate(word_list):
