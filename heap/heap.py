@@ -69,13 +69,14 @@ class MaxHeap:
             parent_i = self._parent(i)
 
     def _sift_down(self, i: int):
-        left_i = self._left(i)
-        right_i = self._right(i)
         cur = i
+        while self._left(cur) < self.size():
+            left_i = self._left(cur)
+            right_i = self._right(cur)
 
-        while left_i < self.size():
             l_val = self.heap_list[left_i]
             cur_val = self.heap_list[cur]
+
             if right_i >= self.size():
                 if l_val > cur_val:
                     self._swap(left_i, cur)
@@ -86,16 +87,12 @@ class MaxHeap:
                 if l_val > cur_val:
                     self._swap(left_i, cur)
                     cur = left_i
-                    left_i = self._left(cur)
-                    right_i = self._right(cur)
                 else:
                     break
             else:
                 if r_val > cur_val:
                     self._swap(right_i, cur)
                     cur = right_i
-                    left_i = self._left(cur)
-                    right_i = self._right(cur)
                 else:
                     break
 
@@ -114,7 +111,7 @@ class Solution:
 
 
 def main():
-    max_heap = MaxHeap([4,8,9])
+    max_heap = MaxHeap([4, 8, 9])
     print(max_heap.size())
     print(max_heap.is_empty())
     max_heap.push(1)
