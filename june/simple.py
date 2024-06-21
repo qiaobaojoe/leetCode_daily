@@ -29,11 +29,45 @@ class SimpleSolution:
 
         return count
 
+    def temperature_trend(
+        self, temperature_a: List[int], temperature_b: List[int]
+    ) -> int:
+        max_trend_count = 0
+        cur_trend_count = 0
+        for i in range(len(temperature_a) - 1):
+            a_trend = self.cal_temperature_trend(temperature_a[i + 1], temperature_a[i])
+            b_trend = self.cal_temperature_trend(temperature_b[i + 1], temperature_b[i])
+            if a_trend == b_trend:
+                print(f"气温变化趋势相同a_trend={a_trend},i={i}")
+                cur_trend_count += 1
+            else:
+                print(f"气温变化趋势不同a_trend={a_trend},b_trend={b_trend},i={i}")
+                max_trend_count = max(max_trend_count, cur_trend_count)
+                cur_trend_count = 0
+        return max(max_trend_count, cur_trend_count)
+
+    def cal_temperature_trend(
+        self, cur_temperature: int, before_temperature: int
+    ) -> int:
+        if cur_temperature == before_temperature:
+            # 平稳
+            return 0
+        if cur_temperature > before_temperature:
+            # 上升
+            return 1
+        # 下降
+        return -1
+
 
 def main():
 
     solution = SimpleSolution()
-    print(solution.count_beautiful_pairs([2, 5, 1, 4]))
+    print(
+        # solution.temperature_trend(
+        #     [-14, 7, -19, 9, 13, 40, 19, 15, -18], [3, 16, 28, 32, 25, 12, 13, -6, 4]
+        # ),
+        solution.temperature_trend([21, 18, 18, 18, 31], [34, 32, 16, 16, 17])
+    )
 
 
 if __name__ == "__main__":
