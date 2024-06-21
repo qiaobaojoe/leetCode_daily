@@ -9,9 +9,9 @@ class MaxHeap:
 
     def __init__(self, nums: List[int]):
         self.heap_list = nums
-
-    def __init__(self):
-        self.heap_list = []
+        # 是下沉不是上浮
+        for i in range(self._parent(self.size() - 1), -1, -1):
+            self._sift_down(i)
 
     def push(self, num: int):
         self.heap_list.append(num)
@@ -107,16 +107,14 @@ class MaxHeap:
 
 class Solution:
     def find_kth_largest(self, nums: List[int], k: int) -> int:
-        max_heap = MaxHeap()
-        for num in nums:
-            max_heap.push(num)
+        max_heap = MaxHeap(nums)
         for _ in range(k - 1):
             max_heap.pop()
         return max_heap.pop()
 
 
 def main():
-    max_heap = MaxHeap()
+    max_heap = MaxHeap([4,8,9])
     print(max_heap.size())
     print(max_heap.is_empty())
     max_heap.push(1)
