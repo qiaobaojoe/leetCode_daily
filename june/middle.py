@@ -66,11 +66,27 @@ class Solution:
                         if spit_str not in sub_stack:
                             sub_stack.append(spit_str)
 
+    def next_greater_elements(self, nums: List[int]) -> List[int]:
+        ans = []
+        for i, val in enumerate(nums):
+            next_greater_val = -1
+            loops = 1
+            while loops < len(nums):
+                next_i = i + loops
+                if next_i >= len(nums):
+                    next_i = next_i - len(nums)
+                if nums[next_i] > val:
+                    next_greater_val = nums[next_i]
+                    break
+                loops += 1
+            ans.append(next_greater_val)
+        return ans
+
 
 def main():
 
     solution = Solution()
-    print(solution.find_lus_length(["aaa", "aaa", "aa"]))
+    print(solution.next_greater_elements([1, 2, 1]))
 
 
 if __name__ == "__main__":

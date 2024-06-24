@@ -10,6 +10,7 @@ class DpSolution:
 
     def max_score(self, nums: List[int], x: int) -> int:
         """
+        https://leetcode.cn/problems/visit-array-positions-to-maximize-score/description/?envType=daily-question&envId=2024-06-14
         那么你可以移动到满足 i < j 的 任意 位置 j 。 只能往前走
         nums[i] 和 nums[j] 的 奇偶性 不同，那么你将失去分数 x 我当前的选择会影响下一步 如果没有这个条件把所有值都加在一起就行了
         一开始 在数组的位置 0 处 遍历的起始位置是确定的
@@ -18,16 +19,7 @@ class DpSolution:
         2.暴力的解法,遍历所有可能得组合
         """
         ans = nums[0]
-        # 结果集的大小 1- (n-1)
-        # 起始元素  num[0] 其他剩余元素的奇偶性相同，直接全部相加 结果集大小n
-        nums_is_even_map = {}
-        for i, val in enumerate(nums):
-            nums_is_even_map.setdefault(i, self.is_even_numver(val))
-
-        envent_count_list = list(nums_is_even_map.values())
-        envent_count = envent_count_list.count(True)
-        if envent_count == 0 or envent_count == len(nums):
-            return sum(nums)
+        #可以选择的
 
         return ans
 
