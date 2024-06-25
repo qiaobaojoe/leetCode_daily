@@ -58,6 +58,22 @@ class SimpleSolution:
         # 下降
         return -1
 
+    def detect_capital_use(self, word: str) -> bool:
+        if len(word) == 1:
+            return True
+        first_char = word[:1]
+        remaind_char = word[1:]
+        if first_char.isupper():
+            if remaind_char.isupper():
+                return True
+            if remaind_char.islower():
+                return True
+        else:
+            if remaind_char.islower():
+                return True
+
+        return False
+
 
 def main():
 
@@ -66,7 +82,7 @@ def main():
         # solution.temperature_trend(
         #     [-14, 7, -19, 9, 13, 40, 19, 15, -18], [3, 16, 28, 32, 25, 12, 13, -6, 4]
         # ),
-        solution.temperature_trend([21, 18, 18, 18, 31], [34, 32, 16, 16, 17])
+        solution.detect_capital_use("USA")
     )
 
 
