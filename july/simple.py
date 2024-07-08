@@ -49,10 +49,19 @@ class Solution:
             return sum_c
         return -1
 
+    def pivot_index(self, nums: List[int]) -> int:
+        sum_all = sum(nums)
+        sum_left = 0
+        for i, val in enumerate(nums):
+            if sum_left == (sum_all - val - sum_left):
+                return i
+            sum_left += val
+        return -1
+
 
 def main():
     solution = Solution()
-    print(solution.sum_of_the_digits_of_harshad_number(18))
+    print(solution.pivot_index([1, 7, 3, 6, 5, 6]))
 
 
 if __name__ == "__main__":
