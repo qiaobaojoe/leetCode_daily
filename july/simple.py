@@ -58,10 +58,50 @@ class Solution:
             sum_left += val
         return -1
 
+    def incremovable_subarray_count(self, nums: List[int]) -> int:
+        if len(nums) == 1:
+            return 1
+        ans = 3
+        # 任一数量>=2的数组都至少包含三个移除递增子数组：包含自身全部元素的，去除头尾连个元素的
+        # 考虑移除后递增子数组的size = 2
+        subarray_size = len(nums) - 2
+        while subarray_size > 0:
+            for i in range(len(nums) - subarray_size+1):
+                if self.is_incremovable(nums, i, subarray_size):
+                    ans += 1
+            subarray_size -= 1
+        return ans
+
+    def is_incremovable(self, nums: List[int], i: int, subarray_size: int) -> bool:
+        if i == 0:
+            cur = nums[subarray_size]
+            for j in range(subarray_size + 1, len(nums)):
+                if nums[j] > cur:
+                    cur = nums[j]
+                else:
+                    return False
+
+            return True
+
+        cur = nums[0]
+        for j in range(1, i):
+            if nums[j] > cur:
+                cur = nums[j]
+            else:
+                return False
+
+        for j in range(subarray_size + i, len(nums)):
+            if nums[j] > cur:
+                cur = nums[j]
+            else:
+                return False
+
+        return True
+
 
 def main():
     solution = Solution()
-    print(solution.pivot_index([1, 7, 3, 6, 5, 6]))
+    print(solution.incremovable_subarray_count([1, 2, 3, 4]))
 
 
 if __name__ == "__main__":
