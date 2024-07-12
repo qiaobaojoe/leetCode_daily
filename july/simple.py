@@ -66,7 +66,7 @@ class Solution:
         # 考虑移除后递增子数组的size = 2
         subarray_size = len(nums) - 2
         while subarray_size > 0:
-            for i in range(len(nums) - subarray_size+1):
+            for i in range(len(nums) - subarray_size + 1):
                 if self.is_incremovable(nums, i, subarray_size):
                     ans += 1
             subarray_size -= 1
@@ -98,10 +98,18 @@ class Solution:
 
         return True
 
+    def number_game(self, nums: List[int]) -> List[int]:
+        ans = []
+        nums.sort()
+        for i in range(len(nums) // 2):
+            ans.append(nums[2 * i + 1])
+            ans.append(nums[2 * i])
+        return ans
+
 
 def main():
     solution = Solution()
-    print(solution.incremovable_subarray_count([1, 2, 3, 4]))
+    print(solution.number_game([5, 4, 2, 3]))
 
 
 if __name__ == "__main__":
