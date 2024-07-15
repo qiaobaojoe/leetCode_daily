@@ -13,10 +13,21 @@ class SortSolution:
                 nums[i], nums[min_index] = nums[min_index], nums[i]
         return nums
 
+    def bubble_sort(self, nums: List[int]) -> List[int]:
+        switch_flag = 0
+        for i in range(len(nums)):
+            for j in range(len(nums) - i - 1):
+                if nums[j] > nums[j + 1]:
+                    nums[j], nums[j + 1] = nums[j + 1], nums[j]
+                    switch_flag += 1
+            if switch_flag == 0:
+                return nums
+        return nums
+
 
 def main():
     solution = SortSolution()
-    print(solution.select_sort([2, 4, 8, 9]))
+    print(solution.bubble_sort([-2, 3, -5]))
 
 
 if __name__ == "__main__":
