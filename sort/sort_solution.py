@@ -24,10 +24,25 @@ class SortSolution:
                 return nums
         return nums
 
+    def insert_sort(self, nums: List[int]) -> List[int]:
+        for i in range(1, len(nums)):
+            cur = nums[i]
+            for j in range(i):
+                if cur < nums[j]:
+                    self.move_one(nums, i, j)
+                    nums[j] = cur
+                    break
+        return nums
+
+    def move_one(self, nums: List[int], i: int, j: int):
+        while i > j:
+            nums[i] = nums[i - 1]
+            i -= 1
+
 
 def main():
     solution = SortSolution()
-    print(solution.bubble_sort([-2, 3, -5]))
+    print(solution.insert_sort([-2, 3, -5]))
 
 
 if __name__ == "__main__":
