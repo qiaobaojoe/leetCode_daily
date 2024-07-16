@@ -106,10 +106,26 @@ class Solution:
             ans.append(nums[2 * i])
         return ans
 
+    def find_intersection_values(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        sum1, sum2 = 0, 0
+        for i, num in enumerate(nums1):
+            if nums2.count(num) >= 1:
+                sum1 += 1
+
+        for i, num in enumerate(nums2):
+            if nums1.count(num) >= 1:
+                sum2 += 1
+
+        return [sum1, sum2]
+
 
 def main():
     solution = Solution()
-    print(solution.number_game([5, 4, 2, 3]))
+    print(
+        solution.find_intersection_values(
+            [24, 28, 7, 27, 7, 27, 9, 24, 9, 10], [12, 29, 9, 7, 5]
+        )
+    )
 
 
 if __name__ == "__main__":
