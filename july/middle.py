@@ -12,19 +12,21 @@ class Soluton:
         i = 0
 
         while i <= high_pivot:
-            print(nums,low_pivot,i,high_pivot)
-            while i <= high_pivot and nums[i] == 2:
+            if nums[i] == 2:
                 nums[i], nums[high_pivot] = nums[high_pivot], nums[i]
                 high_pivot -= 1
+                continue
             if nums[i] == 0:
                 nums[i], nums[low_pivot] = nums[low_pivot], nums[i]
                 low_pivot += 1
-            i += 1
+                i += 1
+            elif nums[i] == 1:
+                i += 1
 
 
 def main():
     solution = Soluton()
-    ans = [2, 0, 1, 0, 1, 2, 1, 1, 2]
+    ans = [0,0]
     solution.sort_colors(ans)
     print(ans)
 
