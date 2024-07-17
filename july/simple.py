@@ -108,11 +108,11 @@ class Solution:
 
     def find_intersection_values(self, nums1: List[int], nums2: List[int]) -> List[int]:
         sum1, sum2 = 0, 0
-        for i, num in enumerate(nums1):
+        for num in nums1:
             if nums2.count(num) >= 1:
                 sum1 += 1
 
-        for i, num in enumerate(nums2):
+        for num in nums2:
             if nums1.count(num) >= 1:
                 sum2 += 1
 
