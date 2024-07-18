@@ -22,13 +22,13 @@ class Soluton:
                 i += 1
             elif nums[i] == 1:
                 i += 1
-        
-        print(nums,low_pivot,high_pivot)
+
+        print(nums, low_pivot, high_pivot)
 
 
 def main():
     solution = Soluton()
-    ans =[2,0,2,1,1,0,0,2,0,1,0,0]
+    ans = [2, 0, 2, 1, 1, 0, 0, 2, 0, 1, 0, 0]
     solution.sort_colors(ans)
 
 

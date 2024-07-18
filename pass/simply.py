@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from tree import TreeNode
+from tree.tree import TreeNode
 
 
 class Solution:

@@ -1,7 +1,7 @@
 from typing import List
 
 
-class SortSolution:
+class Sortsolution:
 
     def select_sort(self, nums: List[int]) -> List[int]:
         for i in range(len(nums) - 1):
@@ -39,10 +39,57 @@ class SortSolution:
             nums[i] = nums[i - 1]
             i -= 1
 
+    def quick_sort(self, nums: List[int]) -> List[int]:
+        self.quick_sort_help(nums, 0, len(nums) - 1)
+        return nums
+
+    def quick_sort_help(self, nums: List[int], left: int, right: int):
+        if left >= right:
+            return
+        pivot = self.quick_sort_partion(nums, left, right)
+        self.quick_sort_help(nums, pivot + 1, right)
+        self.quick_sort_help(nums, left, pivot - 1)
+
+    def quick_sort_partion(self, nums: List[int], left: int, right: int) -> int:
+        print(nums,left,right)
+        pivot = left
+        base_num = self.find_base_num(nums, left, right)
+        i, j = left, right
+        while i <= j:
+            if nums[i] < base_num:
+                nums[pivot], nums[i] = nums[i], nums[pivot]
+                i += 1
+                pivot += 1
+                continue
+            if nums[i] > base_num:
+                nums[j], nums[i] = nums[i], nums[j]
+                j -= 1
+                continue
+            i += 1
+        print(nums,pivot)
+        return pivot
+
+    def find_base_num(self, nums, left, right) -> int:
+        middle = (left + right) // 2
+        left_num = nums[left]
+        right_num = nums[right]
+        middle_num = nums[middle]
+        base_num = left_num
+        if (left_num <= middle_num <= right_num) or (
+            right_num <= middle_num <= left_num
+        ):
+            base_num = middle_num
+        if (left_num <= right_num <= middle_num) or (
+            middle_num <= right_num <= left_num
+        ):
+            base_num = right_num
+        return base_num
+
 
 def main():
-    solution = SortSolution()
-    print(solution.insert_sort([-2, 3, -5]))
+    solution = Sortsolution()
+    nums = [5, 2, 3, 1, 8, 36, 6, 7, 78, 8]
+    print(solution.quick_sort(nums))
 
 
 if __name__ == "__main__":
