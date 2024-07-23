@@ -25,11 +25,32 @@ class Soluton:
 
         print(nums, low_pivot, high_pivot)
 
+    def minimum_levels(self, possible: List[int]) -> int:
+        remaind_count = 0
+        for cur in possible:
+            if cur == 0:
+                remaind_count -= 1
+            else:
+                remaind_count += 1
+
+        cur_count = 0
+        for i, cur in enumerate(possible[: len(possible) - 1]):
+            if cur == 0:
+                cur_count -= 1
+                remaind_count += 1
+            else:
+                cur_count += 1
+                remaind_count -= 1
+            if cur_count > remaind_count:
+                return i + 1
+
+        return -1
+
 
 def main():
     solution = Soluton()
-    ans = [2, 0, 2, 1, 1, 0, 0, 2, 0, 1, 0, 0]
-    solution.sort_colors(ans)
+    ans = [1, 1]
+    print(solution.minimum_levels(ans))
 
 
 if __name__ == "__main__":
