@@ -46,11 +46,30 @@ class Soluton:
 
         return -1
 
+    def relocate_marbles(
+        self, nums: List[int], move_from: List[int], move_to: List[int]
+    ) -> List[int]:
+        marbles_map = {}
+        ans = []
+        for num in nums:
+            marbles_map[num] = True
+        move_len = len(move_from)
+        for i in range(move_len):
+            from_pos = move_from[i]
+            to_pos = move_to[i]
+
+            del marbles_map[from_pos]
+            marbles_map[to_pos] = True
+
+        ans = list(marbles_map.keys())
+        ans.sort()
+        return ans
+
 
 def main():
     solution = Soluton()
-    ans = [1, 1]
-    print(solution.minimum_levels(ans))
+    print(solution.relocate_marbles([1, 6, 7, 8], [1, 7, 2], [2, 9, 5]))
+    print(solution.relocate_marbles([1, 1, 3, 3], [1, 3], [2, 2]))
 
 
 if __name__ == "__main__":
