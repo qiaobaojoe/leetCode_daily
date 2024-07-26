@@ -65,11 +65,23 @@ class Soluton:
         ans.sort()
         return ans
 
+    def find_value_of_partition(self, nums: List[int]) -> int:
+        nums.sort()
+        partition_value = None
+        for i in range(1, len(nums)):
+            cur_diff = nums[i] - nums[i - 1]
+            if partition_value is None:
+                partition_value = cur_diff
+            else:
+                if cur_diff < partition_value:
+                    partition_value = cur_diff
+
+        return partition_value
+
 
 def main():
     solution = Soluton()
-    print(solution.relocate_marbles([1, 6, 7, 8], [1, 7, 2], [2, 9, 5]))
-    print(solution.relocate_marbles([1, 1, 3, 3], [1, 3], [2, 2]))
+    print(solution.find_value_of_partition([43, 35, 19, 1, 21, 11, 59, 38, 47, 1]))
 
 
 if __name__ == "__main__":
