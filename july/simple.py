@@ -118,14 +118,31 @@ class Solution:
 
         return [sum1, sum2]
 
+    def cal_points(self, operations: List[str]) -> int:
+
+        convert_operations = []
+        for i, cur in enumerate(operations):
+            cur = operations[i]
+            if cur == "+":
+                convert_operations.append(
+                    convert_operations[len(convert_operations) - 1]
+                    + convert_operations[len(convert_operations) - 2]
+                )
+            elif cur == "D":
+                convert_operations.append(
+                    convert_operations[len(convert_operations) - 1] * 2
+                )
+            elif cur == "C":
+                convert_operations.pop()
+            else:
+                convert_operations.append(int(cur))
+
+        return sum(convert_operations)
+
 
 def main():
     solution = Solution()
-    print(
-        solution.find_intersection_values(
-            [24, 28, 7, 27, 7, 27, 9, 24, 9, 10], [12, 29, 9, 7, 5]
-        )
-    )
+    print(solution.cal_points(["5", "2", "C", "D", "+"]))
 
 
 if __name__ == "__main__":
