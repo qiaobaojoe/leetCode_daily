@@ -23,10 +23,35 @@ class Soluton:
                 ans.append(False)
         return ans
 
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        # 太笨了，算法都只能靠背的，这也是一种方法吧
+        ans = []
+        self.traceback([], nums, [False] * len(nums), ans)
+        return ans
+
+    def traceback(
+        self,
+        state: List[int],
+        choices: List[int],
+        selected: List[bool],
+        ans: List[List[int]],
+    ):
+        if len(state) == len(choices):
+            ans.append(state[::])
+            return
+        for i, choice in enumerate(choices):
+            if not selected[i]:
+                selected[i] = True
+                state.append(choice)
+                self.traceback(state, choices, selected, ans)
+                # 回退
+                selected[i] = False
+                state.pop()
+
 
 def main():
     solution = Soluton()
-    print(solution.is_array_special([3, 4, 1, 2, 6], [[0, 4]]))
+    print(solution.permute([1, 2, 3]))
 
 
 if __name__ == "__main__":
