@@ -29,6 +29,33 @@ class Soluton:
         self.traceback([], nums, [False] * len(nums), ans)
         return ans
 
+    def permute_same(self, nums: List[int]) -> List[List[int]]:
+        # 太笨了，算法都只能靠背的，这也是一种方法吧
+        ans = []
+        self.traceback_same([], nums, [False] * len(nums), ans)
+        return ans
+
+    def traceback_same(
+        self,
+        state: List[int],
+        choices: List[int],
+        selected: List[bool],
+        ans: List[List[int]],
+    ):
+        if len(state) == len(choices):
+            ans.append(state[::])
+            return
+        duplicated = set[int]()
+        for i, choice in enumerate(choices):
+            if not selected[i] and choice not in duplicated:
+                selected[i] = True
+                duplicated.add(choice)
+                state.append(choice)
+                self.traceback_same(state, choices, selected, ans)
+                # 回退
+                selected[i] = False
+                state.pop()
+
     def traceback(
         self,
         state: List[int],
@@ -51,7 +78,8 @@ class Soluton:
 
 def main():
     solution = Soluton()
-    print(solution.permute([1, 2, 3]))
+    print(solution.permute([1, 1, 2]))
+    print(solution.permute_same([1, 1, 2]))
 
 
 if __name__ == "__main__":
