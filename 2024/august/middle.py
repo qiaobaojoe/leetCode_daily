@@ -75,11 +75,29 @@ class Soluton:
                 selected[i] = False
                 state.pop()
 
+    def min_end(self, n: int, x: int) -> int:
+        # 没有做出来
+        x_bin = bin(x)[2:]
+        ans_bin = list(x_bin[::-1])
+        zero_c = ans_bin.count("0")
+        if zero_c >= n:
+            zero_i = 0
+            while n > 0 and zero_c > 0:
+                while ans_bin[zero_i] == 1:
+                    zero_i += 1
+                ans_bin[zero_i] = "1"
+                n -= 1
+                zero_c -= 1
+        else:
+            ans_bin = ans_bin + ["0"] * (n-zero_c-1) +["1"]
+
+        return int(''.join(ans_bin[::-1]), 2)
+
 
 def main():
     solution = Soluton()
-    print(solution.permute([1, 1, 2]))
-    print(solution.permute_same([1, 1, 2]))
+    print(solution.min_end(3, 4))
+    print(solution.min_end(2, 7))
 
 
 if __name__ == "__main__":
