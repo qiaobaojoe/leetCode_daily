@@ -12,10 +12,20 @@ class Solution:
 
         return True
 
+    def find_permutation_difference(self, s: str, t: str) -> int:
+        t_map = {}
+        for i,t_char in enumerate(t):
+            t_map[t_char] = i
+
+        ans = 0
+        for i,s_char in enumerate(s) :
+            ans += abs(i-t_map[s_char])  
+        return ans
+
 
 def main():
     solution = Solution()
-    print(solution.is_array_special([4, 3, 1, 6]))
+    print(solution.find_permutation_difference("abc", "bac"))
 
 
 if __name__ == "__main__":
