@@ -1,8 +1,5 @@
-from typing import List
-
-
-class SimpleSolution:
-    def difference_of_sum(self, nums: List[int]) -> int:
+class Simplesolution:
+    def difference_of_sum(self, nums: list[int]) -> int:
 
         sum_num = 0
         sum_digit = 0
@@ -16,7 +13,7 @@ class SimpleSolution:
 
         return abs(sum_num - sum_digit)
 
-    def find_judge(self, n: int, trust: List[List[int]]) -> int:
+    def find_judge(self, n: int, trust: list[list[int]]) -> int:
         trust_count = [0] * (n + 1)
         be_trusted_count = [0] * (n + 1)
 
@@ -34,10 +31,26 @@ class SimpleSolution:
 
         return -1
 
+    def time_required_to_buy(self, tickets: list[int], k: int) -> int:
+        ans = 0
+        cur = tickets[k]
+        for i, t in enumerate(tickets):
+            if i <= k:
+                if t >= cur:
+                    ans += cur
+                else:
+                    ans += t
+            else:
+                if t >= cur:
+                    ans += cur - 1
+                else:
+                    ans += t
+        return ans
+
 
 def main():
-    solution = SimpleSolution()
-    print(solution.find_judge(2, [[1, 2]]))
+    solution = Simplesolution()
+    print(solution.time_required_to_buy([2, 3, 2], 2))
     # print(9 // 10)
     # print(9 % 10)
 
