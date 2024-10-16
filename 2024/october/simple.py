@@ -21,10 +21,43 @@ class SimpleSolution:
                     ans += 1
         return ans
 
+    def max_height_of_triangle(self, red: int, blue: int) -> int:
+        first, second, red_ans = red, blue, 1
+        while True:
+            if red_ans % 2 == 1:
+                first -= red_ans
+                if first < 0:
+                    red_ans -= 1
+                    break
+                red_ans += 1
+            else:
+                second -= red_ans
+                if second < 0:
+                    red_ans -= 1
+                    break
+                red_ans += 1
+
+        first, second, blue_ans = blue, red, 1
+        while True:
+            if blue_ans % 2 == 1:
+                first -= blue_ans
+                if first < 0:
+                    blue_ans -= 1
+                    break
+                blue_ans += 1
+            else:
+                second -= blue_ans
+                if second < 0:
+                    blue_ans -= 1
+                    break
+                blue_ans += 1
+
+        return max(red_ans, blue_ans)
+
 
 def main():
     solution = SimpleSolution()
-    print(solution.number_of_pairs([1, 2, 3, 4], [1, 2, 3, 4], 3))
+    print(solution.max_height_of_triangle(2, 4))
 
 
 if __name__ == "__main__":
