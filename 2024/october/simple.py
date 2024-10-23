@@ -54,10 +54,20 @@ class SimpleSolution:
 
         return max(red_ans, blue_ans)
 
+    def count_complete_day_pairs(self, hours: List[int]) -> int:
+        ans = 0
+        for i in range(len(hours) - 1):
+            hour_i = hours[i]
+            for j in range(i + 1, len(hours)):
+                hour_j = hours[j]
+                if (hour_i + hour_j) % 24 == 0:
+                    ans += 1
+        return ans
+
 
 def main():
     solution = SimpleSolution()
-    print(solution.max_height_of_triangle(2, 4))
+    print(solution.count_complete_day_pairs([12, 12, 30, 24, 24]))
 
 
 if __name__ == "__main__":
