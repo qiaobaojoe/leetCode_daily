@@ -63,11 +63,22 @@ class SimpleSolution:
                 if (hour_i + hour_j) % 24 == 0:
                     ans += 1
         return ans
+    def get_smallest_string(self, s: str) -> str:
+        ans = s
+        for i in range(len(s)-1):
+            if s[i] > s[i+1]:
+                parity_i = int(s[i]) % 2
+                parity_j = int(s[i+1]) % 2
+                if parity_i == parity_j:
+                    ans = s[:i] + s[i+1] + s[i] + s[i+2:]
+                    break
+        return ans
+
 
 
 def main():
     solution = SimpleSolution()
-    print(solution.count_complete_day_pairs([12, 12, 30, 24, 24]))
+    print(solution.get_smallest_string("45320"))
 
 
 if __name__ == "__main__":
