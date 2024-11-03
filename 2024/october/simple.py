@@ -55,6 +55,7 @@ class SimpleSolution:
         return max(red_ans, blue_ans)
 
     def count_complete_day_pairs(self, hours: List[int]) -> int:
+        
         ans = 0
         for i in range(len(hours) - 1):
             hour_i = hours[i]
