@@ -30,14 +30,14 @@ class MiddleSolution:
         return n * k
 
     def judge_square_sum(self, c: int) -> bool:
-        if c == 0:
-            return True
-        for i in range(0, c):
-            if i * i > c:
-                return False
-            b = c - i * i
-            if sqrt(b) == int(sqrt(b)):
+        l, r = 0, int(sqrt(c))
+        while l < r :
+            if l *l + r * r == c:
                 return True
+            if l *l + r * r < c:
+                l += 1
+            else:
+                r -= 1
         return False
 
 
