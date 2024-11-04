@@ -1,3 +1,4 @@
+from math import sqrt
 from typing import List
 
 
@@ -28,10 +29,21 @@ class MiddleSolution:
             return 0
         return n * k
 
+    def judge_square_sum(self, c: int) -> bool:
+        if c == 0:
+            return True
+        for i in range(0, c):
+            if i * i > c:
+                return False
+            b = c - i * i
+            if sqrt(b) == int(sqrt(b)):
+                return True
+        return False
+
 
 def main():
     solution = MiddleSolution()
-    print(solution.count_complete_day_pairs([72, 48, 24, 3]))
+    print(solution.judge_square_sum(0))
 
 
 if __name__ == "__main__":
