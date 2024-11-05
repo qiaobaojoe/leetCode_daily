@@ -17,10 +17,20 @@ class Simplesolution:
                     return -1
         return ans
 
+    def losing_player(self, x: int, y: int) -> int:
+        is_a = True
+        for _ in range(1, x + 2):
+            y -= 4
+            if y < 0:
+                is_a = not is_a
+                break
+            is_a = not is_a
+        return "Alice" if is_a else "Bob"
+
 
 def main():
     solution = Simplesolution()
-    print(solution.min_changes(13, 4))
+    print(solution.losing_player(1, 4))
 
 
 if __name__ == "__main__":
