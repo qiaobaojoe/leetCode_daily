@@ -44,24 +44,32 @@ class MiddleSolution:
         if k == 1:
             return nums
         n = len(nums)
-
         ans = [-1] * (n - k + 1)
-        for i in range(n - k + 1):
-            cur = nums[i : i + k]
-            is_constant = True
-            for j in range(1, k):
-                if cur[j] != cur[j - 1] + 1:
-                    is_constant = False
-                    break
-
-            if is_constant:
-                ans[i] = cur[k - 1]
+        constant_range = []
+        # 找到所有 >= k的连续区间
+        start, end = -1, -1
+        for i in range(n - 1):
+            if nums[i] + 1 == nums[i + 1]:
+                if start == -1:
+                    start = i
+                end = i + 1
+                if i == n -2:
+                    constant_range.append((start, end))
+            else:
+                if start != -1 and end - start + 1 >= k:
+                    constant_range.append((start, end))
+                start, end = -1, -1
+        if len(constant_range) == 0:
+            return ans
+        for s, e in constant_range:
+            for i in range(s, e - k + 2):
+                ans[i] = nums[i + k - 1]
         return ans
 
 
 def main():
     solution = MiddleSolution()
-    print(solution.results_array([1, 2, 3, 4, 3, 2, 5], 3))
+    print(solution.results_array([2,3], 2))
 
 
 if __name__ == "__main__":
