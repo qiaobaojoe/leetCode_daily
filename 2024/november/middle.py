@@ -31,19 +31,37 @@ class MiddleSolution:
 
     def judge_square_sum(self, c: int) -> bool:
         l, r = 0, int(sqrt(c))
-        while l < r :
-            if l *l + r * r == c:
+        while l < r:
+            if l * l + r * r == c:
                 return True
-            if l *l + r * r < c:
+            if l * l + r * r < c:
                 l += 1
             else:
                 r -= 1
         return False
 
+    def results_array(self, nums: List[int], k: int) -> List[int]:
+        if k == 1:
+            return nums
+        n = len(nums)
+
+        ans = [-1] * (n - k + 1)
+        for i in range(n - k + 1):
+            cur = nums[i : i + k]
+            is_constant = True
+            for j in range(1, k):
+                if cur[j] != cur[j - 1] + 1:
+                    is_constant = False
+                    break
+
+            if is_constant:
+                ans[i] = cur[k - 1]
+        return ans
+
 
 def main():
     solution = MiddleSolution()
-    print(solution.judge_square_sum(0))
+    print(solution.results_array([1, 2, 3, 4, 3, 2, 5], 3))
 
 
 if __name__ == "__main__":
