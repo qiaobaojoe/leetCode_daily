@@ -82,11 +82,18 @@ class Solution:
             ans.append(next_greater_val)
         return ans
 
+    def smallest_range(self, nums: List[int], k: int) -> int:
+        nums.sort()
+        max_diff = nums[-1] - nums[0]
+        if max_diff <= k * 2:
+            return 0
+        return max_diff - k * 2
+
 
 def main():
 
     solution = Solution()
-    print(solution.next_greater_elements([1, 2, 1]))
+    print(solution.smallest_range([1, 3, 6], 3))
 
 
 if __name__ == "__main__":
