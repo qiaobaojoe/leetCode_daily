@@ -84,10 +84,11 @@ class Solution:
 
     def smallest_range(self, nums: List[int], k: int) -> int:
         nums.sort()
-        max_diff = nums[-1] - nums[0]
-        if max_diff <= k * 2:
-            return 0
-        return max_diff - k * 2
+        ans = nums[-1] - nums[0]
+        for i in range(len(nums)):
+            diff = max(nums[-1] - k, nums[i - 1] + k) - min(nums[0] + k, nums[i] - k)
+            ans = min(ans, diff)
+        return ans
 
 
 def main():

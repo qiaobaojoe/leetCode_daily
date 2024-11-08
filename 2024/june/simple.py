@@ -73,6 +73,13 @@ class SimpleSolution:
                 return True
 
         return False
+    
+    def smallest_range(self, nums: List[int], k: int) -> int:
+        nums.sort()
+        max_diff = nums[-1] - nums[0]
+        if max_diff <= k * 2:
+            return 0
+        return max_diff - k * 2
 
 
 def main():
