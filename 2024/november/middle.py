@@ -53,7 +53,7 @@ class MiddleSolution:
                 if start == -1:
                     start = i
                 end = i + 1
-                if i == n -2:
+                if i == n - 2:
                     constant_range.append((start, end))
             else:
                 if start != -1 and end - start + 1 >= k:
@@ -66,10 +66,33 @@ class MiddleSolution:
                 ans[i] = nums[i + k - 1]
         return ans
 
+    def single_non_duplicate(self, nums: List[int]) -> int:
+        n = len(nums)
+        if n == 1:
+            return nums[0]
+
+        l, r = 0, n - 1
+        while r > l:
+            m = (r + l) // 2
+            if m % 2 != 0:
+                if m < n - 2:
+                    m += 1
+                else:
+                    m -= 1
+
+            if nums[m] == nums[m + 1]:
+                l = m + 2
+            else:
+                if nums[m] == nums[m - 1]:
+                    r = m - 2
+                else:
+                    return nums[m]
+        return nums[l]
+
 
 def main():
     solution = MiddleSolution()
-    print(solution.results_array([2,3], 2))
+    print(solution.single_non_duplicate([0, 1, 1]))
 
 
 if __name__ == "__main__":
