@@ -89,10 +89,23 @@ class MiddleSolution:
                     return nums[m]
         return nums[l]
 
+    def count_k_constraint_substrings(self, s: str, k: int) -> int:
+        ans = 0
+        n = len(s)
+        # 枚举
+        while n > 0:
+            for i in range(len(s) - n + 1):
+                sub_string = s[i : i + n :]
+                if sub_string.count("0") <= k or sub_string.count("1") <= k:
+                    ans += 1
+            n -= 1
+
+        return ans
+
 
 def main():
     solution = MiddleSolution()
-    print(solution.single_non_duplicate([0, 1, 1]))
+    print(solution.count_k_constraint_substrings("10101", 1))
 
 
 if __name__ == "__main__":
