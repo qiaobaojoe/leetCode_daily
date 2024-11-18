@@ -30,6 +30,40 @@ class Simplesolution:
             is_a = not is_a
         return "Alice" if is_a else "Bob"
 
+    def image_smoother(self, img: List[List[int]]) -> List[List[int]]:
+        m, n = len(img), len(img[0])
+        ans = [[0] * n for _ in range(m)]
+        for i, row in enumerate(img):
+            for j, val in enumerate(row):
+                cur_sum = val
+                cur_count = 1
+                if i - 1 >= 0:
+                    cur_sum += img[i - 1][j]
+                    cur_count += 1
+                if i + 1 < m:
+                    cur_sum += img[i + 1][j]
+                    cur_count += 1
+                if j - 1 >= 0:
+                    cur_sum += img[i][j - 1]
+                    cur_count += 1
+                if j + 1 < n:
+                    cur_sum += img[i][j + 1]
+                    cur_count += 1
+                if i - 1 >= 0 and j - 1 >= 0:
+                    cur_sum += img[i - 1][j - 1]
+                    cur_count += 1
+                if i - 1 >= 0 and j + 1 < n:
+                    cur_sum += img[i - 1][j + 1]
+                    cur_count += 1
+                if i + 1 < m and j - 1 >= 0:
+                    cur_sum += img[i + 1][j - 1]
+                    cur_count += 1  
+                if i + 1 < m and j + 1 < n:
+                    cur_sum += img[i + 1][j + 1]
+                    cur_count += 1
+                ans[i][j] = cur_sum // cur_count
+        return ans
+
 
 class NeighborSum:
 
@@ -84,11 +118,9 @@ class NeighborSum:
 
 
 def main():
-    solution = NeighborSum([[0, 1, 2], [3, 4, 5], [6, 7, 8]])
-    print(solution.adjacent_sum(1))
-    print(solution.adjacent_sum(4))
-    print(solution.diagonal_sum(4))
-    print(solution.diagonal_sum(9))
+    solution = Simplesolution()
+    print(5 // 4)
+    print(solution.image_smoother([[100, 200, 100], [200, 50, 200], [100, 200, 100]]))
 
 
 if __name__ == "__main__":
