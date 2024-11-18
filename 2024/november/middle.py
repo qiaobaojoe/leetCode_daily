@@ -102,10 +102,36 @@ class MiddleSolution:
 
         return ans
 
+    def count_good_nodes(self, edges: List[List[int]]) -> int:
+        n = len(edges) + 1
+        node_count = [[] for _ in range(n)]
+        for a, b in edges:
+            node_count[a].append(b)
+        ans = 0
+        for node in node_count:
+            if len(node) == 0 or len(node) == 1:
+                ans += 1
+            else:
+                # 统计每一个子树所包含的节点数量
+                child_count = [0] * len(node)
+
+                for (i,child) in enumerate(node):
+                    cur_stack = [child]
+                    while len(cur_stack) > 0:
+                        cur = cur_stack.pop()
+                        child_count[i] += 1
+                        for c in node_count[cur]:
+                            cur_stack.append(c)
+
+                child_count.sort()
+                if child_count[0] == child_count[-1] :
+                    ans += 1
+        return ans
+
 
 def main():
     solution = MiddleSolution()
-    print(solution.count_k_constraint_substrings("10101", 1))
+    print(solution.count_good_nodes([[0, 1], [0, 2], [1, 3], [1, 4], [2, 5], [2, 6]]))
 
 
 if __name__ == "__main__":
