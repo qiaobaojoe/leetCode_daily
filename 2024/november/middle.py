@@ -115,7 +115,7 @@ class MiddleSolution:
                 # 统计每一个子树所包含的节点数量
                 child_count = [0] * len(node)
 
-                for (i,child) in enumerate(node):
+                for i, child in enumerate(node):
                     cur_stack = [child]
                     while len(cur_stack) > 0:
                         cur = cur_stack.pop()
@@ -124,14 +124,47 @@ class MiddleSolution:
                             cur_stack.append(c)
 
                 child_count.sort()
-                if child_count[0] == child_count[-1] :
+                if child_count[0] == child_count[-1]:
                     ans += 1
+        return ans
+
+    def shortest_distance_after_queries(
+        self, n: int, queries: List[List[int]]
+    ) -> List[int]:
+        ans = [0] * len(queries)
+        grid = [[0] * n for _ in range(n)]
+        for i in range(n - 1):
+            grid[i][i + 1] = 1
+
+        for i, (a, b) in enumerate(queries):
+            grid[a][b] = 1
+            visited = [False] * n
+            deque = [0]
+            next_deque = []
+            step = 1
+            while len(deque) > 0 or len(next_deque) > 0:
+                if len(deque) == 0:
+                    deque = next_deque
+                    next_deque = []
+                    step += 1
+
+                cur = deque.pop()
+                visited[cur] = True
+                row = grid[cur]
+                for j, r in enumerate(row):
+                    if r == 1:
+                        if j == n - 1:
+                            ans[i] = step
+                            deque,next_deque = [],[]
+                            break
+                        if not visited[j]:
+                            next_deque.append(j)
         return ans
 
 
 def main():
     solution = MiddleSolution()
-    print(solution.count_good_nodes([[0, 1], [0, 2], [1, 3], [1, 4], [2, 5], [2, 6]]))
+    print(solution.shortest_distance_after_queries(5, [[2,4],[0,2],[0,4]]))
 
 
 if __name__ == "__main__":
