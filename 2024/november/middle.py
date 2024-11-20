@@ -1,3 +1,4 @@
+from itertools import count
 from math import sqrt
 from typing import List
 
@@ -138,33 +139,31 @@ class MiddleSolution:
 
         for i, (a, b) in enumerate(queries):
             grid[a][b] = 1
-            visited = [False] * n
-            deque = [0]
-            next_deque = []
-            step = 1
-            while len(deque) > 0 or len(next_deque) > 0:
-                if len(deque) == 0:
-                    deque = next_deque
-                    next_deque = []
-                    step += 1
+            ans[i] = self.bfs_help(n, grid)
+        return ans
 
-                cur = deque.pop()
+    def bfs_help(self, n: int, grid: List[List[int]]) -> int:
+        visited = [False] * n
+        queue = [0]
+        for step in count(1):
+            tem = queue[::]
+            queue = []
+            while tem:
+                cur = tem.pop()
                 visited[cur] = True
                 row = grid[cur]
                 for j, r in enumerate(row):
                     if r == 1:
                         if j == n - 1:
-                            ans[i] = step
-                            deque,next_deque = [],[]
-                            break
+                            return step
                         if not visited[j]:
-                            next_deque.append(j)
-        return ans
+                            queue.append(j)
+        return -1
 
 
 def main():
     solution = MiddleSolution()
-    print(solution.shortest_distance_after_queries(5, [[2,4],[0,2],[0,4]]))
+    print(solution.shortest_distance_after_queries(5, [[2, 4], [0, 2], [0, 4]]))
 
 
 if __name__ == "__main__":
