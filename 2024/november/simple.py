@@ -57,12 +57,26 @@ class Simplesolution:
                     cur_count += 1
                 if i + 1 < m and j - 1 >= 0:
                     cur_sum += img[i + 1][j - 1]
-                    cur_count += 1  
+                    cur_count += 1
                 if i + 1 < m and j + 1 < n:
                     cur_sum += img[i + 1][j + 1]
                     cur_count += 1
                 ans[i][j] = cur_sum // cur_count
         return ans
+
+    def final_position_of_snake(self, n: int, commands: List[str]) -> int:
+        i, j = 0, 0
+        for c in commands:
+            if "DOWN" == c:
+                i += 1
+            if "UP" == c:
+                i -= 1
+            if "RIGHT" == c:
+                j += 1
+            if "LEFT" == c:
+                j -= 1
+
+        return (i * n) + j
 
 
 class NeighborSum:
@@ -119,8 +133,7 @@ class NeighborSum:
 
 def main():
     solution = Simplesolution()
-    print(5 // 4)
-    print(solution.image_smoother([[100, 200, 100], [200, 50, 200], [100, 200, 100]]))
+    print(solution.final_position_of_snake(2,["RIGHT","DOWN"]))
 
 
 if __name__ == "__main__":
