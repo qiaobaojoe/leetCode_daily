@@ -160,10 +160,23 @@ class MiddleSolution:
                             queue.append(j)
         return -1
 
+    def non_special_count(self, l: int, r: int) -> int:
+        ans = 0
+        for i in range(l, r + 1):
+            if not self.is_special_num(i):
+                ans += 1
+        return ans
+
+    def is_special_num(self, num: int) -> bool:
+        cur = int(num**0.5)
+        if cur * cur == num:
+            return True
+        return False
+
 
 def main():
     solution = MiddleSolution()
-    print(solution.shortest_distance_after_queries(5, [[2, 4], [0, 2], [0, 4]]))
+    print(solution.non_special_count(4,16))
 
 
 if __name__ == "__main__":
