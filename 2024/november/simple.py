@@ -78,6 +78,19 @@ class Simplesolution:
 
         return (i * n) + j
 
+    def winning_player_count(self, n: int, pick: List[List[int]]) -> int:
+        ans = 0
+        # 最多只会有10种颜色的球，构建二维数组统计对于一个玩家各种颜色球的数量
+        player_count = [[0] * 11 for _ in range(n)]
+        for (x,y) in pick:
+            player_count[x][y] += 1
+        for (i,count) in enumerate(player_count):
+            for c in count:
+                if c > i:
+                    ans += 1
+                    break
+        return ans
+
 
 class NeighborSum:
 
@@ -133,7 +146,11 @@ class NeighborSum:
 
 def main():
     solution = Simplesolution()
-    print(solution.final_position_of_snake(2,["RIGHT","DOWN"]))
+    print(
+        solution.winning_player_count(
+            4, [[0, 0], [1, 0], [1, 0], [2, 1], [2, 1], [2, 0]]
+        )
+    )
 
 
 if __name__ == "__main__":
