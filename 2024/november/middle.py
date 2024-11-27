@@ -174,6 +174,7 @@ class MiddleSolution:
         return False
 
     def network_delay_time(self, times: List[List[int]], n: int, k: int) -> int:
+        # todo 未完成
         ans = 0
         nodes = []
         node_grid = [[0] * (n + 1) for _ in range(n + 1)]
@@ -197,10 +198,23 @@ class MiddleSolution:
 
         return -1
 
+    def number_of_alternating_groups(self, colors: List[int]) -> int:
+        ans = 0
+        # 设计大小为3的滑动窗口
+        for l, l_c in enumerate(colors):
+            n = len(colors)
+            m = (l + 1) % n
+            r = (l + 2) % n
+            m_c = colors[m]
+            r_c = colors[r]
+            if m_c != l_c and m_c != r_c:
+                ans += 1
+        return ans
+
 
 def main():
     solution = MiddleSolution()
-    print(solution.network_delay_time([[2, 1, 1], [2, 3, 1], [3, 4, 1]], 4, 2))
+    print(solution.number_of_alternating_groups([1, 1, 1]))
 
 
 if __name__ == "__main__":
