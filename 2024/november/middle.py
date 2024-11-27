@@ -173,10 +173,34 @@ class MiddleSolution:
             return True
         return False
 
+    def network_delay_time(self, times: List[List[int]], n: int, k: int) -> int:
+        ans = 0
+        nodes = []
+        node_grid = [[0] * (n + 1) for _ in range(n + 1)]
+        for u, v, w in times:
+            node_grid[u][v] = w
+            if nodes.count(u) == 0:
+                nodes.append(u)
+            if nodes.count(v) == 0:
+                nodes.append(v)
+
+        start_nodes = [k]
+        while start_nodes:
+            cur = start_nodes.pop()
+            time_u = times[cur]
+            for n in time_u:
+                if n != 0:
+                    start_nodes.append(n)
+
+            if not nodes:
+                return ans
+
+        return -1
+
 
 def main():
     solution = MiddleSolution()
-    print(solution.non_special_count(4,16))
+    print(solution.network_delay_time([[2, 1, 1], [2, 3, 1], [3, 4, 1]], 4, 2))
 
 
 if __name__ == "__main__":
