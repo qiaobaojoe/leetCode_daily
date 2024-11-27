@@ -211,10 +211,36 @@ class MiddleSolution:
                 ans += 1
         return ans
 
+    def number_of_alternating_groups2(self, colors: List[int], k: int) -> int:
+        ans = 0
+        # 找出 >= k 连续大小不同子数组
+        alternating_groups = []
+        n = len(colors)
+        start, end = 0, 0
+        for i in range(n + k - 2):
+            cur_i = i % n
+            cur_j = (i + 1) % n
+            if colors[cur_i] != colors[cur_j]:
+                end = i + 1
+            else:
+                if end - start + 1 >= k:
+                    alternating_groups.append((start, end))
+                start = i + 1
+                end = i + 1
+        if end != start:
+            if end - start + 1 >= k:
+                alternating_groups.append((start, end))
+        if not alternating_groups:
+            return ans
+
+        for e in alternating_groups:
+            ans += e[1] - e[0] + 1 - k + 1
+        return ans
+
 
 def main():
     solution = MiddleSolution()
-    print(solution.number_of_alternating_groups([1, 1, 1]))
+    print(solution.number_of_alternating_groups2([0, 1, 0, 1], 3))
 
 
 if __name__ == "__main__":
