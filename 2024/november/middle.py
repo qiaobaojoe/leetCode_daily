@@ -1,3 +1,4 @@
+from cmath import inf
 from itertools import count
 from math import sqrt
 from typing import List
@@ -174,29 +175,43 @@ class MiddleSolution:
         return False
 
     def network_delay_time(self, times: List[List[int]], n: int, k: int) -> int:
-        # todo 未完成
-        ans = 0
-        nodes = []
-        node_grid = [[0] * (n + 1) for _ in range(n + 1)]
-        for u, v, w in times:
-            node_grid[u][v] = w
-            if nodes.count(u) == 0:
-                nodes.append(u)
-            if nodes.count(v) == 0:
-                nodes.append(v)
+        # 构建图
+        node_grid = [[-1] * n for _ in range(n)]
+        for a, b, c in times:
+            node_grid[a - 1][b - 1] = c
+        # 三个数组，处理结果
+        dist = [inf] * n
+        done = [False] * n
+        parent = [-1] * n
+        dist[k - 1] = 0
+        done[k - 1] = True
+        parent[k - 1] = 0
 
-        start_nodes = [k]
-        while start_nodes:
-            cur = start_nodes.pop()
-            time_u = times[cur]
-            for n in time_u:
-                if n != 0:
-                    start_nodes.append(n)
+        cur_index = k-1
+        while True:
+            cur_node = node_grid[cur_index]
+            for i, c in enumerate(cur_node):
+                if c!= -1:
+                    if not done[i]:
+                        if c + dist[cur_index] < dist[i]:
+                            dist[i] = c + dist[cur_index]
+                            parent[i] = cur_index
+            # 从当前节点出发，所有能到达的节点距离全部更新，找到一个距离最小的节点
+            # 所有节点都确认，返回dist最大值
+            if all(done):
+                return max(dist)
+            # 还没有确认的节点里面，找到距离最小的节点
+            min_dist = inf
+            for (j,ok) in enumerate(done):
+                if not ok:
+                    if dist[j] < min_dist:
+                        min_dist = dist[j]
+                        cur_index = j
+            # 还没有确认的节点里面，距离都是无穷大，表示无法到达
+            if min_dist == inf:
+                return -1
+            done[cur_index] = True
 
-            if not nodes:
-                return ans
-
-        return -1
 
     def number_of_alternating_groups(self, colors: List[int]) -> int:
         ans = 0
@@ -240,7 +255,8 @@ class MiddleSolution:
 
 def main():
     solution = MiddleSolution()
-    print(solution.number_of_alternating_groups2([0, 1, 0, 1], 3))
+
+    print(solution.network_delay_time([[2, 1, 1], [2, 3, 1], [3, 4, 1]], 4, 2))
 
 
 if __name__ == "__main__":
