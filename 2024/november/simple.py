@@ -90,6 +90,17 @@ class Simplesolution:
                     ans += 1
                     break
         return ans
+        
+    def can_alice_win(self, nums: List[int]) -> bool:
+        single_digit_sum,double_digit_sum = 0,0
+        for n in nums:
+            if n < 10:
+                single_digit_sum += n
+            else:
+                double_digit_sum += n
+        if single_digit_sum == double_digit_sum:
+            return False
+        return True
 
 
 class NeighborSum:
@@ -146,11 +157,7 @@ class NeighborSum:
 
 def main():
     solution = Simplesolution()
-    print(
-        solution.winning_player_count(
-            4, [[0, 0], [1, 0], [1, 0], [2, 1], [2, 1], [2, 0]]
-        )
-    )
+    print(solution.can_alice_win([1,2,3,4,10]))
 
 
 if __name__ == "__main__":
