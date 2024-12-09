@@ -1,62 +1,40 @@
 class MiddleSolution:
+    def __init__(self) -> None:
+        self.memo = {}
+
     def knight_probability(self, n: int, k: int, row: int, column: int) -> float:
-        if k == 0:
-            return 1
-        step_plan_count = 8 ** k
-        step_out_plan_count = 0
-        step_plan = [(row, column)]
-        while k > 0:
-            cur_step_plan = step_plan[::]
-            step_plan = []
-            k -= 1
-            while cur_step_plan:
-                (i, j) = cur_step_plan.pop()
-                # 每一步有8个方向可以走
-                # 上2
-                if i - 2 >= 0 and j - 1 >= 0:
-                    step_plan.append((i - 2, j - 1))
-                else:
-                    step_out_plan_count += 8 ** k
-                if i - 2 >= 0 and j + 1 < n:
-                    step_plan.append((i - 2, j + 1))
-                else:
-                    step_out_plan_count += 8 ** k
-                # 上1
-                if i - 1 >= 0 and j - 2 >= 0:
-                    step_plan.append((i - 1, j - 2))
-                else:
-                    step_out_plan_count += 8 ** k
-                if i - 1 >= 0 and j + 2 < n:
-                    step_plan.append((i - 1, j + 2))
-                else:
-                    step_out_plan_count += 8 ** k
-                # 下2
-                if i + 2 < n and j - 1 >= 0:
-                    step_plan.append((i + 2, j - 1))
-                else:
-                    step_out_plan_count += 8 ** k
-                if i + 2 < n and j + 1 < n:
-                    step_plan.append((i + 2, j + 1))
-                else:
-                    step_out_plan_count += 8 ** k
-                # 下1
-                if i + 1 < n and j - 2 >= 0:
-                    step_plan.append((i + 1, j - 2))
-                else:
-                    step_out_plan_count += 8 ** k
-                if i + 1 < n and j + 2 < n:
-                    step_plan.append((i + 1, j + 2))
-                else:
-                    step_out_plan_count += 8 ** k
-            
-        if step_plan_count == 0:
+        if self.memo.get((k, row, column)):
+            return self.memo.get((k, row, column))
+        if row < 0 or row >= n or column < 0 or column >= n:
+            self.memo[(k, row, column)] = 0
             return 0
-        return 1 - step_out_plan_count / step_plan_count
+        if k == 0:
+            self.memo[(k, row, column)] = 1
+            return 1
+        probablility = 0
+
+        # 每一步有8个方向可以走
+        # 上2
+        probablility += self.knight_probability(n, k - 1, row - 2, column - 1) / 8
+        probablility += self.knight_probability(n, k - 1, row - 2, column + 1) / 8
+        # 上1
+        probablility += self.knight_probability(n, k - 1, row - 1, column - 2) / 8
+        probablility += self.knight_probability(n, k - 1, row - 1, column + 2) / 8
+        # 下2
+        probablility += self.knight_probability(n, k - 1, row + 2, column - 1) / 8
+        probablility += self.knight_probability(n, k - 1, row + 2, column + 1) / 8
+        # 下1
+        probablility += self.knight_probability(n, k - 1, row + 1, column - 2) / 8
+        probablility += self.knight_probability(n, k - 1, row + 1, column + 2) / 8
+
+        self.memo[(k, row, column)] = probablility
+        return probablility
 
 
 def main():
     solution = MiddleSolution()
-    print(solution.knight_probability(8, 30, 6, 4))
+    print(solution.knight_probability(3, 2, 0, 0))
+    # print(solution.knight_probability(8, 30, 6, 4))
 
 
 if __name__ == "__main__":
