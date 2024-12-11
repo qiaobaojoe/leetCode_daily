@@ -70,11 +70,36 @@ class Solution:
         col = int(ord(coordinates[0])) - 96
         return (row ^ col) & 1 == 1
 
+    def semi_ordered_permutation(self, nums: List[int]) -> int:
+        ans = 0
+        n = len(nums)
+        # 找到最大的
+        if nums[n - 1] != n:
+            swap_flag = False
+            for i in range(n - 1):
+                if nums[i] == n:
+                    swap_flag = True
+                if swap_flag:
+                    if nums[i + 1] < nums[i]:
+                        ans += 1
+                        nums[i], nums[i + 1] = nums[i + 1], nums[i]
+
+        # 找到1的位置
+        if nums[0] != 1:
+            swap_flag = False
+            for j in range(n - 2, -1, -1):
+                if nums[j + 1] == 1:
+                    swap_flag = True
+                if swap_flag:
+                    if nums[j] > nums[j + 1]:
+                        ans += 1
+                        nums[j], nums[j + 1] = nums[j + 1], nums[j]
+        return ans
+
 
 def main():
     solution = Solution()
-    print(solution.square_is_white("h3"))
-    print(solution.square_is_white("a1"))
+    print(solution.semi_ordered_permutation([3,2,4,1]))
 
 
 if __name__ == "__main__":
