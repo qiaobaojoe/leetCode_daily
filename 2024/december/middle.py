@@ -1,4 +1,6 @@
 from functools import cache
+from heapq import heapify, heappop, heappush
+from typing import List
 
 
 class MiddleSolution:
@@ -28,11 +30,22 @@ class MiddleSolution:
 
         return probablility
 
+    def max_spending(self, values: List[List[int]]) -> int:
+        m, n = len(values), len(values[0])
+        q = [(values[i][-1], i, n - 1) for i in range(m)]
+        heapify(q)
+        ans = 0
+        for turn in range(1, m * n + 1):
+            val, i, j = heappop(q)
+            ans += val * turn
+            if j > 0:
+                heappush(q, (values[i][j - 1], i, j - 1))
+        return ans
+
 
 def main():
     solution = MiddleSolution()
-    print(solution.knight_probability(3, 2, 0, 0))
-    print(solution.knight_probability(8, 30, 6, 4))
+    print(solution.max_spending([[8, 5, 2], [6, 4, 1], [9, 7, 3]]))
 
 
 if __name__ == "__main__":
