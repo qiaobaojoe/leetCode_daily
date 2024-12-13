@@ -41,11 +41,11 @@ class MiddleSolution:
             if j > 0:
                 heappush(q, (values[i][j - 1], i, j - 1))
         return ans
-    
+
     def get_final_state(self, nums: List[int], k: int, multiplier: int) -> List[int]:
         for _ in range(k):
-            min_i =  0 
-            for (i,n) in enumerate(nums):
+            min_i = 0
+            for i, n in enumerate(nums):
                 if n < nums[min_i]:
                     min_i = i
             nums[min_i] *= multiplier
@@ -54,7 +54,7 @@ class MiddleSolution:
 
 def main():
     solution = MiddleSolution()
-    print(solution.get_final_state([2,1,3,5,6],5,2))
+    print(solution.get_final_state([2, 1, 3, 5, 6], 5, 2))
 
 
 if __name__ == "__main__":
