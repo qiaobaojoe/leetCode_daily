@@ -51,10 +51,26 @@ class MiddleSolution:
             nums[min_i] *= multiplier
         return nums
 
+    def min_set_size(self, arr: List[int]) -> int:
+        num_count = {}
+        for n in arr:
+            if n not in num_count:
+                num_count[n] = 0
+            num_count[n] += 1
+        count_list = list(num_count.values())
+        count_list.sort(reverse=True)
+        half = len(arr) // 2
+        count = 0
+        for i, c in enumerate(count_list):
+            count += c
+            if count >= half:
+                return i + 1
+        return -1
+
 
 def main():
     solution = MiddleSolution()
-    print(solution.get_final_state([2, 1, 3, 5, 6], 5, 2))
+    print(solution.min_set_size([3, 3, 3, 3, 5, 5, 5, 2, 2, 7]))
 
 
 if __name__ == "__main__":
