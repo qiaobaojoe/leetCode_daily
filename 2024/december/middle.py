@@ -75,3 +75,43 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+class ExamRoom:
+
+    def __init__(self, n: int):
+        self.seats = [0] * n
+        self.n = n
+        self.count = 0
+
+    def seat(self) -> int:
+        if self.count == 0:
+            self.seats[0] = 1
+            self.count += 1
+            return 0
+        max_distance = 0
+        start_idx = 0
+        end_idx = 0
+        cur_count = self.count
+        for i, s in enumerate(self.seats):
+            if s == 1:
+                cur_distance = i - start_idx
+                if cur_distance > max_distance:
+                    max_distance = cur_distance
+                    end_idx = i
+                cur_count -= 1
+                if cur_count == 0:
+                    cur_distance = self.n - 1 - end_idx
+                    if cur_distance > max_distance:
+                        start_idx = end_idx
+                        end_idx = self.n - 1
+                        max_distance = cur_distance
+                    break
+        seat = (start_idx + end_idx) // 2
+        self.seats[seat] = 1
+        self.count += 1
+        return seat
+
+    def leave(self, p: int) -> None:
+        self.seats[p] = 0
+        self.count -= 1
