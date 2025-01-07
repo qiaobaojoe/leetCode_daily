@@ -16,12 +16,21 @@ class Solution:
             if s > start:
                 ans = max(ans, s - start)
             start = s + 1
-        return max(ans, top - start +1)
+        return max(ans, top - start + 1)
+
+    def count_key_changes(self, s: str) -> int:
+        ans = 0
+        for i in range(len(s) - 1):
+            diff = ord(s[i + 1]) - ord(s[i])
+            if diff == 0 or diff == 32 or diff == -32:
+                continue
+            ans += 1
+        return ans
 
 
 def main():
     solution = Solution()
-    print(solution.max_consecutive(2, 9, [4, 6]))
+    print(solution.count_key_changes("aAbBcC"))
 
 
 if __name__ == "__main__":
