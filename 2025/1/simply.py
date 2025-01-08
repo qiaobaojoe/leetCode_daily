@@ -27,10 +27,18 @@ class Solution:
             ans += 1
         return ans
 
+    def largest_good_integer(self, num: str) -> str:
+        ans = ""
+        for i in range(0, len(num) - 2):
+            if num[i] == num[i + 1] == num[i + 2]:
+                if ans == "" or int(ans[0]) < int(num[i]):
+                    ans = num[i : i + 3]
+        return ans
+
 
 def main():
     solution = Solution()
-    print(solution.count_key_changes("aAbBcC"))
+    print(solution.largest_good_integer("6777133339"))
 
 
 if __name__ == "__main__":
