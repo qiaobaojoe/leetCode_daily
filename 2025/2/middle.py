@@ -26,9 +26,9 @@ class FoodRatings:
         self.cuisines = cuisines
         self.ratings = ratings
 
-    def change_rating(self, food: str, new_rating: int) -> None:
+    def change_rating(self, food_name: str, new_rating: int) -> None:
         for i, f in enumerate(self.foods):
-            if f == food:
+            if f == food_name:
                 self.ratings[i] = new_rating
                 return
 
