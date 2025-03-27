@@ -28,9 +28,24 @@ class Solution:
             cursor += 1
         return sum(ans_array)
 
+    def minimum_cost(self, s: str) -> int:
+        cost = 0
+        for i in range(len(s)-1):
+            if s[i] == s[i+1]:
+                continue
+            # 字符不同，开始反转
+            if i <= len(s) // 2 :
+                # 反转到前半部分
+                cost += i + 1
+            else:
+                # 反转到后半部分
+                cost += len(s) - i
+        return cost
+
 def main():
     s = Solution()
-    print(s.minimum_sum(2, 3))
+    # print(s.minimum_cost("0011"))
+    print(s.minimum_cost("010101"))
 
 
 if __name__ == "__main__":
