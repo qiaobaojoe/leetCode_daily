@@ -26,10 +26,21 @@ class Solution:
 
         return ans
 
+    def count_pairs(self, nums: List[int], k: int) -> int:
+        ans = 0
+        for i in range(len(nums) - 1):
+            val = nums[i]
+            for j in range(i + 1, len(nums)):
+                val_j = nums[j]
+                if val == val_j and (i * j) % k == 0:
+                    print(i, j)
+                    ans += 1
+        return ans
+
 
 def main():
     s = Solution()
-    print(s.count_good_triplets([3, 0, 1, 1, 9, 7], 7, 2, 3))
+    print(s.count_pairs([5, 5, 9, 2, 5, 5, 9, 2, 2, 5, 5, 6, 2, 2, 5, 2, 5, 4, 3], 7))
 
 
 if __name__ == "__main__":
