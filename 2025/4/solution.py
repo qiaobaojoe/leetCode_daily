@@ -1,7 +1,7 @@
 from typing import List
 
 
-class Solution:
+class Simple:
     def count_good_triplets(self, arr: List[int], a: int, b: int, c: int) -> int:
         # 暴力枚举
         ans = 0
@@ -38,9 +38,14 @@ class Solution:
         return ans
 
 
+class Middle:
+    def count_good(self, nums: List[int], k: int) -> int:
+        pass
+
+
 def main():
-    s = Solution()
-    print(s.count_pairs([5, 5, 9, 2, 5, 5, 9, 2, 2, 5, 5, 6, 2, 2, 5, 2, 5, 4, 3], 7))
+    s = Middle()
+    print(s.count_good([1, 1, 1, 1, 1], 10))
 
 
 if __name__ == "__main__":
