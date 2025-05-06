@@ -41,13 +41,16 @@ class Simple:
 
 class Middle:
     def count_bad_pairs(self, nums: List[int]) -> int:
-        # 暴力枚举
+        # 暴力超时  有序队列
         ans = 0
         n = len(nums)
+        time = 0
         for i in range(n - 1):
             for j in range(i + 1, n):
+                time += 1
                 if j - i != nums[j] - nums[i]:
                     ans += 1
+        print(time)
         return ans
 
 
