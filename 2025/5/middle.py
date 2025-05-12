@@ -109,11 +109,25 @@ class Solution:
                     dists[ny][nx] = cur_d
         return dists[n - 1][m - 1]
 
+    def min_sum(self, nums1: List[int], nums2: List[int]) -> int:
+        sum1 = sum(nums1)
+        count_zero1 = nums1.count(0)
+        sum2 = sum(nums2)
+        count_zero2 = nums2.count(0)
+        min_sum1 = sum1 + count_zero1
+        max_sum1 = sum1 + count_zero1 * 10**100
+        min_sum2 = sum2 + count_zero2
+        max_sum2 = sum2 + count_zero2 * 10**100
+
+        if min_sum1 > max_sum2 or min_sum2 > max_sum1:
+            return -1
+        return max(min_sum1, min_sum2)
+
 
 def main():
     s = Solution()
     # print(s.network_delay_time([[2, 1, 1], [2, 3, 1], [3, 4, 1]], 4, 2))
-    print(s.min_time_to_reach_v2([[0, 4], [4, 4]]))
+    print(s.min_sum([1000000, 0, 0, 1000000], [0]))
     # print(s.min_time_to_reach([[0, 4], [4, 4]]))
 
 
