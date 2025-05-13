@@ -125,26 +125,25 @@ class Solution:
         return max(min_sum1, min_sum2)
 
     def length_after_transformations(self, s: str, t: int) -> int:
-        ans = []
+        mod = 10**9 + 7
+        dp = [[0] * 26 for _ in range(t + 1)]
+        # dp[i][j] 表示字母j在第i次变换之后的长度
+        # 初始化
         for c in s:
-            steps_to_z = ord("z") - ord(c)
-            if t <= steps_to_z:
-                ans.append(1)
-                continue
-            ans.append(self.length_after_transformations_ab(t - steps_to_z))
+            dp[0][ord(c) - ord("a")] += 1
+        # dp
+        for i in range(1, t + 1):
+            # 先处理a-y 对后面的影响
+            for j in range(25):
+                dp[i][j + 1] = dp[i - 1][j]
+            # 单独处理 z 对 a 和 b 的影响
+            dp[i][0] = dp[i - 1][25]
+            dp[i][1] += dp[i - 1][25]
 
-        return sum(ans) % (10**9 + 7)
-
-    @lru_cache
-    def length_after_transformations_ab(self, k: int) -> int:
-        if k < 25:
-            return 2
-        if k == 25:
-            return 3
-        # 否则，考虑前一步的情况
-        return self.length_after_transformations_ab(
-            k - 25
-        ) + self.length_after_transformations_ab(k - 26)
+        total = 0
+        for j in range(26):
+            total = (total + dp[t][j]) % mod
+        return total
 
 
 def main():
