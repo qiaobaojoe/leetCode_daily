@@ -125,30 +125,29 @@ class Solution:
         return max(min_sum1, min_sum2)
 
     def length_after_transformations(self, s: str, t: int) -> int:
-        mod = 10**9 + 7
+        # dp大法真的优雅，列出顶顶有名的状态转移方程 i 代表转换的次数 j代表字母
+        # f[i][j] = f[i-1][j-1]  j-1 = z 时需要特殊处理，会产生分裂
+        # f[i][a] = f[i-1][z] f[i][b] = f[i][b] + f[i-1][z]
+        # 列出状态数组
         dp = [[0] * 26 for _ in range(t + 1)]
-        # dp[i][j] 表示字母j在第i次变换之后的长度
-        # 初始化
+        # 初始化状态  t=0
         for c in s:
-            dp[0][ord(c) - ord("a")] += 1
-        # dp
+            ac_c = ord(c) - 97
+            dp[0][ac_c] += 1
+
         for i in range(1, t + 1):
-            # 先处理a-y 对后面的影响
-            for j in range(25):
-                dp[i][j + 1] = dp[i - 1][j]
-            # 单独处理 z 对 a 和 b 的影响
+            for j in range(1, 26):
+                dp[i][j] = dp[i - 1][j - 1]
             dp[i][0] = dp[i - 1][25]
             dp[i][1] += dp[i - 1][25]
 
-        total = 0
-        for j in range(26):
-            total = (total + dp[t][j]) % mod
-        return total
+        return sum(dp[t]) % (10**9 + 7)
 
 
 def main():
     s = Solution()
     # print(s.network_delay_time([[2, 1, 1], [2, 3, 1], [3, 4, 1]], 4, 2))
+    # print(ord("a"))
     print(s.length_after_transformations("jqktcurgdvlibczdsvnsg", 7517))
     print(79033769)
     # print(s.min_time_to_reach([[0, 4], [4, 4]]))
