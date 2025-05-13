@@ -1,3 +1,4 @@
+from functools import lru_cache
 from typing import List
 import heapq
 
@@ -123,11 +124,34 @@ class Solution:
             return -1
         return max(min_sum1, min_sum2)
 
+    def length_after_transformations(self, s: str, t: int) -> int:
+        ans = []
+        for c in s:
+            steps_to_z = ord("z") - ord(c)
+            if t <= steps_to_z:
+                ans.append(1)
+                continue
+            ans.append(self.length_after_transformations_ab(t - steps_to_z))
+
+        return sum(ans) % (10**9 + 7)
+
+    @lru_cache
+    def length_after_transformations_ab(self, k: int) -> int:
+        if k < 25:
+            return 2
+        if k == 25:
+            return 3
+        # 否则，考虑前一步的情况
+        return self.length_after_transformations_ab(
+            k - 25
+        ) + self.length_after_transformations_ab(k - 26)
+
 
 def main():
     s = Solution()
     # print(s.network_delay_time([[2, 1, 1], [2, 3, 1], [3, 4, 1]], 4, 2))
-    print(s.min_sum([1000000, 0, 0, 1000000], [0]))
+    print(s.length_after_transformations("jqktcurgdvlibczdsvnsg", 7517))
+    print(79033769)
     # print(s.min_time_to_reach([[0, 4], [4, 4]]))
 
 
