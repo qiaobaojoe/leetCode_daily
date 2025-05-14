@@ -28,18 +28,36 @@ class SimpleSolution:
                         continue
                     if even_flag[k]:
                         continue
-                    num = d * 100 +  e * 10 +f
+                    num = d * 100 + e * 10 + f
                     if ans.count(num) > 0:
                         continue
                     ans.append()
         ans.sort()
         return ans
 
+    def three_consecutive_odds(self, arr: List[int]) -> bool:
+        for i, a in enumerate(arr):
+            arr[i] = a % 2
+        j = 0
+        while j < len(arr) - 2:
+            if arr[j] == 0:
+                j += 1
+                continue
+            odd_len = 1
+            while odd_len < 3:
+                j += 1
+                if arr[j] == 1:
+                    odd_len += 1
+                else:
+                    break
+            if odd_len == 3:
+                return True
+        return False
+
 
 def main():
     s = SimpleSolution()
-    # print(s.find_even_numbers([3, 7, 5]))
-    print(s.find_even_numbers([2, 1, 3, 0]))
+    print(s.three_consecutive_odds([1, 3, 2]))
 
 
 if __name__ == "__main__":
