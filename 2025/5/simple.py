@@ -54,10 +54,21 @@ class SimpleSolution:
                 return True
         return False
 
+    def get_longest_subsequence(self, words: List[str], groups: List[int]) -> List[str]:
+        ans = [words[0]]
+        before_i= 0
+
+        for i in range(1, len(groups)):
+            if groups[i] != groups[before_i]:
+                before_i = i
+                ans.append(words[i])
+        return ans
+
 
 def main():
     s = SimpleSolution()
-    print(s.three_consecutive_odds([1, 3, 2]))
+    # print(s.get_longest_subsequence(["d"], [1]))
+    print(s.get_longest_subsequence(["e", "a", "b"], [0, 0, 1]))
 
 
 if __name__ == "__main__":
