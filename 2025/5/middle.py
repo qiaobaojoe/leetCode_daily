@@ -177,10 +177,37 @@ class Solution:
                     ans.append(cur)
         return ans
 
+    def get_words_in_longest_subsequence(
+        self, words: List[str], groups: List[int]
+    ) -> List[str]:
+        def check(s: str, t: str) -> bool:
+            return len(s) == len(t) and sum(x != y for x, y in zip(s, t)) == 1
+
+        n = len(words)
+        f = [0] * n
+        from_ = [0] * n
+        max_i = n - 1
+        for i in range(n - 1, -1, -1):
+            for j in range(i + 1, n):
+                # 提前比较 f[j] 与 f[i] 的大小，如果 f[j] <= f[i]，就不用执行更耗时的 check 了
+                if f[j] > f[i] and groups[j] != groups[i] and check(words[i], words[j]):
+                    f[i] = f[j]
+                    from_[i] = j
+            f[i] += 1  # 加一写在这里
+            if f[i] > f[max_i]:
+                max_i = i
+
+        i = max_i
+        ans = [""] * f[i]
+        for k in range(f[i]):
+            ans[k] = words[i]
+            i = from_[i]
+        return ans
+
 
 def main():
     s = Solution()
-    print(s.network_delay_time([[2, 1, 1], [2, 3, 1], [3, 4, 1]], 4, 2))
+    print(s.get_words_in_longest_subsequence(["bab", "dab", "cab"], [1, 2, 2]))
 
 
 if __name__ == "__main__":
