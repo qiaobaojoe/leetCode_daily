@@ -220,23 +220,26 @@ class Solution:
 
     def find_target_sum_ways(self, nums: List[int], target: int) -> int:
         # 使用字典存储每一步可能的和及其出现次数
-        curr_sums = {0: 1}  # 初始状态：和为0出现1次
+        if sum(nums) < target:
+            return 0
 
-        # 遍历每个数字
-        for num in nums:
-            # 临时字典存储本轮计算后的所有可能的和
-            next_sums = {}
-            # 遍历当前所有可能的和
-            for curr_sum, count in curr_sums.items():
-                # 当前和加上当前数字
-                next_sums[curr_sum + num] = next_sums.get(curr_sum + num, 0) + count
-                # 当前和减去当前数字
-                next_sums[curr_sum - num] = next_sums.get(curr_sum - num, 0) + count
-            # 更新当前和的字典
-            curr_sums = next_sums
+        return self.find_target_sum_backtrace(tuple(nums), target, len(nums) - 1)
 
-        # 返回最终和等于target的方案数
-        return curr_sums.get(target, 0)
+    @lru_cache(None)
+    def find_target_sum_backtrace(self, nums: tuple, target: int, index: int) -> int:
+        if sum(nums) < target:
+            return 0
+        cur = nums[index]
+        if index == 0:
+            if abs(target) == cur:
+                if cur == 0:
+                    return 2
+                return 1
+            return 0
+
+        return self.find_target_sum_backtrace(
+            nums, target - cur, index - 1
+        ) + self.find_target_sum_backtrace(nums, target + cur, index - 1)
 
 
 def main():
