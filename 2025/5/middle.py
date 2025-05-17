@@ -204,11 +204,6 @@ class Solution:
             i = from_[i]
         return ans
 
-    def find_target_sum_ways(self, nums: List[int], target: int) -> int:
-        # 退而求其次，做一做相关性问题
-        # f[target] = (f[target-nums[0]] + f[target+nums[0]]) + ... + f[target-nums[n-1]] + f[target+nums[n-1]]
-        pass
-
     def sort_colors(self, nums: List[int]) -> None:
         """
         Do not return anything, modify nums in-place instead.
@@ -223,10 +218,30 @@ class Solution:
                 nums[p0] = 0
                 p0 += 1
 
+    def find_target_sum_ways(self, nums: List[int], target: int) -> int:
+        # 使用字典存储每一步可能的和及其出现次数
+        curr_sums = {0: 1}  # 初始状态：和为0出现1次
+
+        # 遍历每个数字
+        for num in nums:
+            # 临时字典存储本轮计算后的所有可能的和
+            next_sums = {}
+            # 遍历当前所有可能的和
+            for curr_sum, count in curr_sums.items():
+                # 当前和加上当前数字
+                next_sums[curr_sum + num] = next_sums.get(curr_sum + num, 0) + count
+                # 当前和减去当前数字
+                next_sums[curr_sum - num] = next_sums.get(curr_sum - num, 0) + count
+            # 更新当前和的字典
+            curr_sums = next_sums
+
+        # 返回最终和等于target的方案数
+        return curr_sums.get(target, 0)
+
 
 def main():
     s = Solution()
-    print(s.sort_colors([2, 0, 2, 1, 1, 0]))
+    print(s.find_target_sum_ways([1, 1, 1, 1, 1], 3))
 
 
 if __name__ == "__main__":
