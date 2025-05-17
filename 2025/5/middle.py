@@ -205,9 +205,45 @@ class Solution:
         return ans
 
 
+
+    def sort_colors(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        count_0, count_1, count_2 = 0, 0, 0
+        for num in nums:
+            if num == 0:
+                count_0 += 1
+            if num == 1:
+                count_1 += 1
+            if num == 2:
+                count_2 += 1
+        print(count_0, count_1, count_2)
+        i = 0
+        while i < count_0 + count_1:
+            if i < count_0:
+                if nums[i] != 0:
+                    for j in range(i + 1, len(nums)):
+                        if nums[j] == 0:
+                            nums[j] = nums[i]
+                            nums[i] = 0
+                            break
+                i += 1
+                continue
+
+            if i < count_0 + count_1:
+                if nums[i] != 1:
+                    for j in range(i + 1, len(nums)):
+                        if nums[j] == 1:
+                            nums[j] = nums[i]
+                            nums[i] = 1
+                            break
+                i += 1
+
+
 def main():
     s = Solution()
-    print(s.get_words_in_longest_subsequence(["bab", "dab", "cab"], [1, 2, 2]))
+    print(s.sort_colors([2, 0, 2, 1, 1, 0]))
 
 
 if __name__ == "__main__":
