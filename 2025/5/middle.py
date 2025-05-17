@@ -204,41 +204,24 @@ class Solution:
             i = from_[i]
         return ans
 
-
+    def find_target_sum_ways(self, nums: List[int], target: int) -> int:
+        # 退而求其次，做一做相关性问题
+        # f[target] = (f[target-nums[0]] + f[target+nums[0]]) + ... + f[target-nums[n-1]] + f[target+nums[n-1]]
+        pass
 
     def sort_colors(self, nums: List[int]) -> None:
         """
         Do not return anything, modify nums in-place instead.
         """
-        count_0, count_1, count_2 = 0, 0, 0
-        for num in nums:
+        p1, p0 = 0, 0
+        for i, num in enumerate(nums):
+            nums[i] = 2
+            if num <= 1:
+                nums[p1] = 1
+                p1 += 1
             if num == 0:
-                count_0 += 1
-            if num == 1:
-                count_1 += 1
-            if num == 2:
-                count_2 += 1
-        print(count_0, count_1, count_2)
-        i = 0
-        while i < count_0 + count_1:
-            if i < count_0:
-                if nums[i] != 0:
-                    for j in range(i + 1, len(nums)):
-                        if nums[j] == 0:
-                            nums[j] = nums[i]
-                            nums[i] = 0
-                            break
-                i += 1
-                continue
-
-            if i < count_0 + count_1:
-                if nums[i] != 1:
-                    for j in range(i + 1, len(nums)):
-                        if nums[j] == 1:
-                            nums[j] = nums[i]
-                            nums[i] = 1
-                            break
-                i += 1
+                nums[p0] = 0
+                p0 += 1
 
 
 def main():
