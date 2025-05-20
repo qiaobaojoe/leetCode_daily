@@ -219,37 +219,24 @@ class Solution:
                 p0 += 1
 
     def is_zero_array(self, nums: List[int], queries: List[List[int]]) -> bool:
+        diff_arry = [0] * (len(nums) + 1)
+        diff_arry[0] = nums[0]
+        for i, num in enumerate(nums):
+            if i == 0 :
+                continue
+            diff_arry[i] = num - nums[i - 1]
         for l, r in queries:
-            for i in range(l, r + 1):
-                nums[i] = max(nums[i] - 1, 0)
-        for num in nums:
-            if num != 0:
+            diff_arry[l] -= 1
+            diff_arry[r + 1] += 1
+        diff_sum = 0
+        for diff in diff_arry[: len(nums) :]:
+            diff_sum += diff
+            if diff_sum > 0:
                 return False
         return True
 
     def is_zero_array_test(self):
-        print(
-            self.is_zero_array(
-                [3, 5, 10],
-                [
-                    [2, 2],
-                    [0, 2],
-                    [2, 2],
-                    [0, 0],
-                    [0, 2],
-                    [0, 2],
-                    [0, 0],
-                    [1, 2],
-                    [2, 2],
-                    [2, 2],
-                    [2, 2],
-                    [0, 2],
-                    [2, 2],
-                    [0, 2],
-                    [2, 2],
-                ],
-            )
-        )
+        print(self.is_zero_array([0,5], [[1,1]]))
 
     def car_pooling(self, trips: List[List[int]], capacity: int) -> bool:
         # 对trips 进行排序
@@ -271,4 +258,4 @@ class Solution:
 
 if __name__ == "__main__":
     s = Solution()
-    s.car_pooling_test()
+    s.is_zero_array_test()
