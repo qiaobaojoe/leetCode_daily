@@ -218,33 +218,40 @@ class Solution:
                 nums[p0] = 0
                 p0 += 1
 
-    def find_target_sum_ways(self, nums: List[int], target: int) -> int:
-        # 使用字典存储每一步可能的和及其出现次数
-        if sum(nums) < target:
-            return 0
-
-        return self.find_target_sum_backtrace(tuple(nums), target, len(nums) - 1)
-
-    @lru_cache(None)
-    def find_target_sum_backtrace(self, nums: tuple, target: int, index: int) -> int:
-        if sum(nums) < target:
-            return 0
-        cur = nums[index]
-        if index == 0:
-            if abs(target) == cur:
-                if cur == 0:
-                    return 2
-                return 1
-            return 0
-
-        return self.find_target_sum_backtrace(
-            nums, target - cur, index - 1
-        ) + self.find_target_sum_backtrace(nums, target + cur, index - 1)
+    def is_zero_array(self, nums: List[int], queries: List[List[int]]) -> bool:
+        for l,r in queries:
+            for i in range(l,r+1):
+                nums[i] = max(nums[i]-1,0)
+        for num in nums:
+            if num != 0 :
+                return False
+        return True
 
 
 def main():
     s = Solution()
-    print(s.find_target_sum_ways([1, 1, 1, 1, 1], 3))
+    print(
+        s.is_zero_array(
+            [3, 5, 10],
+            [
+                [2, 2],
+                [0, 2],
+                [2, 2],
+                [0, 0],
+                [0, 2],
+                [0, 2],
+                [0, 0],
+                [1, 2],
+                [2, 2],
+                [2, 2],
+                [2, 2],
+                [0, 2],
+                [2, 2],
+                [0, 2],
+                [2, 2],
+            ],
+        )
+    )
 
 
 if __name__ == "__main__":
