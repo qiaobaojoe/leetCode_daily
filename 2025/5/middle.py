@@ -219,40 +219,56 @@ class Solution:
                 p0 += 1
 
     def is_zero_array(self, nums: List[int], queries: List[List[int]]) -> bool:
-        for l,r in queries:
-            for i in range(l,r+1):
-                nums[i] = max(nums[i]-1,0)
+        for l, r in queries:
+            for i in range(l, r + 1):
+                nums[i] = max(nums[i] - 1, 0)
         for num in nums:
-            if num != 0 :
+            if num != 0:
                 return False
         return True
 
-
-def main():
-    s = Solution()
-    print(
-        s.is_zero_array(
-            [3, 5, 10],
-            [
-                [2, 2],
-                [0, 2],
-                [2, 2],
-                [0, 0],
-                [0, 2],
-                [0, 2],
-                [0, 0],
-                [1, 2],
-                [2, 2],
-                [2, 2],
-                [2, 2],
-                [0, 2],
-                [2, 2],
-                [0, 2],
-                [2, 2],
-            ],
+    def is_zero_array_test(self):
+        print(
+            self.is_zero_array(
+                [3, 5, 10],
+                [
+                    [2, 2],
+                    [0, 2],
+                    [2, 2],
+                    [0, 0],
+                    [0, 2],
+                    [0, 2],
+                    [0, 0],
+                    [1, 2],
+                    [2, 2],
+                    [2, 2],
+                    [2, 2],
+                    [0, 2],
+                    [2, 2],
+                    [0, 2],
+                    [2, 2],
+                ],
+            )
         )
-    )
+
+    def car_pooling(self, trips: List[List[int]], capacity: int) -> bool:
+        # 对trips 进行排序
+        ans = [0] * 1001
+        for p, f, t in trips:
+            ans[f] += p
+            # t已经下车了，是把 到t-1区间内+p
+            ans[t] -= p
+        p_count = 0
+        for a in ans:
+            p_count += a
+            if p_count > capacity:
+                return False
+        return True
+
+    def car_pooling_test(self):
+        print(self.car_pooling([[9, 3, 4], [9, 1, 7], [4, 2, 4], [7, 4, 5]], 23))
 
 
 if __name__ == "__main__":
-    main()
+    s = Solution()
+    s.car_pooling_test()
