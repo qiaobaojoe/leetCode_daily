@@ -222,7 +222,7 @@ class Solution:
         diff_arry = [0] * (len(nums) + 1)
         diff_arry[0] = nums[0]
         for i, num in enumerate(nums):
-            if i == 0 :
+            if i == 0:
                 continue
             diff_arry[i] = num - nums[i - 1]
         for l, r in queries:
@@ -236,7 +236,7 @@ class Solution:
         return True
 
     def is_zero_array_test(self):
-        print(self.is_zero_array([0,5], [[1,1]]))
+        print(self.is_zero_array([0, 5], [[1, 1]]))
 
     def car_pooling(self, trips: List[List[int]], capacity: int) -> bool:
         # 对trips 进行排序
@@ -255,7 +255,48 @@ class Solution:
     def car_pooling_test(self):
         print(self.car_pooling([[9, 3, 4], [9, 1, 7], [4, 2, 4], [7, 4, 5]], 23))
 
+    def min_zero_array2(self, nums: List[int], queries: List[List[int]]) -> int:
+        if nums.count(0) == len(nums):
+            return 0
+        def check(k: int) -> bool:
+            n = len(nums)
+            diffs = [0] * (n + 1)
+            diffs[0] = nums[0]
+            for i, num in enumerate(nums):
+                if i == 0:
+                    continue
+                diffs[i] = num - nums[i - 1]
+            for l, r, v in queries[:k+1:]:
+                diffs[l] -= v
+                diffs[r + 1] += v
+            cur_sum = 0
+            for i, d in enumerate(diffs):
+                if i == n:
+                    continue
+                cur_sum += d
+                if cur_sum > 0:
+                    return False
+            return True
+
+        # 二分查找区间
+        left, right = 0, len(queries) - 1
+        while left < right:
+            print(left, right)
+            mid = (left + right) // 2
+            print(mid)
+            if check(mid):
+                right = mid
+            else:
+                left = mid + 1
+        print(left, right)
+        if check(left):
+            return left +1
+        return -1
+
+    def min_zero_array_test2(self):
+        self.min_zero_array2([2,0,2], [[0,2,1],[0,2,1],[1,1,3]])
+
 
 if __name__ == "__main__":
     s = Solution()
-    s.is_zero_array_test()
+    s.min_zero_array_test2()
