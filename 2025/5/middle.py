@@ -280,18 +280,17 @@ class Solution:
             return True
 
         # 二分查找区间
-        left, right = 0, len(queries) - 1
-        while left < right:
+        left, right = -1, len(queries)
+        while left + 1 < right:
             print(left, right)
-            mid = (left + right) // 2
-            print(mid)
+            mid = left + (right - left) // 2
             if check(mid):
                 right = mid
             else:
-                left = mid + 1
+                left = mid
         print(left, right)
-        if check(left):
-            return left + 1
+        if check(left + 1):
+            return left + 2
         return -1
 
     def min_zero_array_test2(self):
@@ -322,11 +321,11 @@ class Solution:
         return [left_bound, low_bound(target + 1) - 1]
 
     def search_range_test(self):
-        print(self.search_range([2,2], 3))
+        print(self.search_range([2, 2], 3))
         print(self.search_range([5, 7, 7, 8, 8, 10], 8))
         print(self.search_range([5, 7, 7, 8, 8, 10], 7))
 
 
 if __name__ == "__main__":
     s = Solution()
-    s.search_range_test()
+    s.min_zero_array_test2()
