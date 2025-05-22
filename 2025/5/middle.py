@@ -258,6 +258,7 @@ class Solution:
     def min_zero_array2(self, nums: List[int], queries: List[List[int]]) -> int:
         if nums.count(0) == len(nums):
             return 0
+
         def check(k: int) -> bool:
             n = len(nums)
             diffs = [0] * (n + 1)
@@ -266,7 +267,7 @@ class Solution:
                 if i == 0:
                     continue
                 diffs[i] = num - nums[i - 1]
-            for l, r, v in queries[:k+1:]:
+            for l, r, v in queries[: k + 1 :]:
                 diffs[l] -= v
                 diffs[r + 1] += v
             cur_sum = 0
@@ -290,13 +291,42 @@ class Solution:
                 left = mid + 1
         print(left, right)
         if check(left):
-            return left +1
+            return left + 1
         return -1
 
     def min_zero_array_test2(self):
-        self.min_zero_array2([2,0,2], [[0,2,1],[0,2,1],[1,1,3]])
+        self.min_zero_array2([2, 0, 2], [[0, 2, 1], [0, 2, 1], [1, 1, 3]])
+
+    def search_range(self, nums: List[int], target: int) -> List[int]:
+        if len(nums) == 0:
+            return [-1, -1]
+
+        def low_bound(cur_target) -> int:
+            # 开区间方法
+            li = -1
+            ri = len(nums)
+            while li + 1 < ri:
+                mi = li + (ri - li) // 2
+                if nums[mi] >= cur_target:
+                    ri = mi
+                else:
+                    li = mi
+            return li + 1
+
+        # 这里返回的是Left,也就是Left左边的肯定都会比left小。当left = 0 的时候需要判断 left是否 == target，如果不等于就是没有找到
+        left_bound = low_bound(target)
+        if left_bound == len(nums):
+            return [-1, -1]
+        if nums[left_bound] != target:
+            return [-1, -1]
+        return [left_bound, low_bound(target + 1) - 1]
+
+    def search_range_test(self):
+        print(self.search_range([2,2], 3))
+        print(self.search_range([5, 7, 7, 8, 8, 10], 8))
+        print(self.search_range([5, 7, 7, 8, 8, 10], 7))
 
 
 if __name__ == "__main__":
     s = Solution()
-    s.min_zero_array_test2()
+    s.search_range_test()
