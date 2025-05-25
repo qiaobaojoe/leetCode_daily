@@ -325,6 +325,28 @@ class Solution:
         print(self.search_range([5, 7, 7, 8, 8, 10], 8))
         print(self.search_range([5, 7, 7, 8, 8, 10], 7))
 
+    def longest_palindrome(self, words: List[str]) -> int:
+        reverse_words_idx = []
+        equal_words_idx = []
+        for i, w in enumerate(words):
+            if i in reverse_words_idx:
+                continue
+            for j in range(i + 1, len(words)):
+                if j in reverse_words_idx:
+                    continue
+                next_w = words[j]
+                if next_w[1] == w[0] and next_w[0] == w[1]:
+                    reverse_words_idx.append(i)
+                    reverse_words_idx.append(j)
+                    break
+            if i not in reverse_words_idx:
+                if w[0] == w[1]:
+                    equal_words_idx.append(i)
+
+        if len(equal_words_idx) != 0:
+            return len(reverse_words_idx) * 2 + 2
+        return len(reverse_words_idx) * 2
+
 
 if __name__ == "__main__":
     s = Solution()
