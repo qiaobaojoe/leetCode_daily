@@ -327,7 +327,7 @@ class Solution:
 
     def longest_palindrome(self, words: List[str]) -> int:
         cnt = [[0] * 26 for _ in range(26)]
-        print(ord('a'))
+        print(ord("a"))
         for w in words:
             cnt[ord(w[0]) - 97][ord(w[1]) - 97] += 1
         ans = odd = 0
@@ -339,10 +339,29 @@ class Solution:
                 ans += min(cnt[i][j], cnt[j][i]) * 2
 
         return (ans + odd) * 2
+
     def longest_palindrome_test(self):
-        self.longest_palindrome(["lc","cl","gg"])
+        self.longest_palindrome(["lc", "cl", "gg"])
+
+    def next_greatest_letter(self, letters: List[str], target: str) -> str:
+        l = -1
+        n = len(letters)
+        r = n
+        ac_target = ord(target)
+        while l + 1 < r:
+            m = l + (r - l) // 2
+            ac_m = ord(letters[m])
+            if ac_m > ac_target:
+                r = m
+            else:
+                l = m
+        print(r)
+        i = r % n
+        return letters[i]
+    def next_greatest_letter_test(self):
+        self.next_greatest_letter(["c","f","j"],"c")
 
 
 if __name__ == "__main__":
     s = Solution()
-    s.longest_palindrome_test()
+    s.next_greatest_letter_test()
