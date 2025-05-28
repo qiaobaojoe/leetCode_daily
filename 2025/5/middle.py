@@ -358,10 +358,35 @@ class Solution:
         print(r)
         i = r % n
         return letters[i]
+
     def next_greatest_letter_test(self):
-        self.next_greatest_letter(["c","f","j"],"c")
+        self.next_greatest_letter(["c", "f", "j"], "c")
+
+    def successful_pairs(
+        self, spells: List[int], potions: List[int], success: int
+    ) -> List[int]:
+        ans = []
+        potions.sort()
+
+        def cal_successful_pairs(sort_potions, cur_spell) -> int:
+            li = -1
+            ri = len(sort_potions)
+            while li + 1 < ri:
+                mi = li + (ri - li) // 2
+                if potions[mi] * cur_spell >= success:
+                    ri = mi
+                else:
+                    li = mi
+            return len(sort_potions) - li - 1
+
+        for s in spells:
+            ans.append(cal_successful_pairs(potions, s))
+        return ans
+
+    def successful_pairs_test(self):
+        print(self.successful_pairs([5, 1, 3], [1, 2, 3, 4, 5], 7))
 
 
 if __name__ == "__main__":
     s = Solution()
-    s.next_greatest_letter_test()
+    s.successful_pairs_test()
