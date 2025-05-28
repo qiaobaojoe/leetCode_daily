@@ -386,7 +386,41 @@ class Solution:
     def successful_pairs_test(self):
         print(self.successful_pairs([5, 1, 3], [1, 2, 3, 4, 5], 7))
 
+    def num_islands(self, grid: List[List[str]]) -> int:
+        m, n = len(grid), len(grid[0])
+
+        def dfs(x, y):
+            if x < 0 or y < 0 or x > n-1 or y > m-1:
+                return
+            if grid[y][x] != "1":
+                return
+            grid[y][x] = "2"
+            dfs(x - 1, y)
+            dfs(x + 1, y)
+            dfs(x, y - 1)
+            dfs(x, y + 1)
+
+        ans = 0
+        for y in range(m):
+            for x in range(n):
+                if grid[y][x] == "1":
+                    dfs(x, y)
+                    ans += 1
+        return ans
+
+    def num_islands_test(self):
+        print(
+            self.num_islands(
+                [
+                    ["1", "1", "0", "0", "0"],
+                    ["1", "1", "0", "0", "0"],
+                    ["0", "0", "1", "0", "0"],
+                    ["0", "0", "0", "1", "1"],
+                ]
+            )
+        )
+
 
 if __name__ == "__main__":
     s = Solution()
-    s.successful_pairs_test()
+    s.num_islands_test()
