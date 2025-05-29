@@ -390,7 +390,7 @@ class Solution:
         m, n = len(grid), len(grid[0])
 
         def dfs(x, y):
-            if x < 0 or y < 0 or x > n-1 or y > m-1:
+            if x < 0 or y < 0 or x > n - 1 or y > m - 1:
                 return
             if grid[y][x] != "1":
                 return
@@ -420,7 +420,47 @@ class Solution:
             )
         )
 
+    def max_area_of_island(self, grid: List[List[int]]) -> int:
+        ans = 0
+        m, n = len(grid), len(grid[0])
+
+        def dfs(x, y, cur_area) -> int:
+            if x < 0 or y < 0 or x >= n or y >= m:
+                return cur_area
+            if grid[y][x] != 1:
+                return cur_area
+            grid[y][x] = 2
+            cur_area += 1
+            cur_area = dfs(x - 1, y, cur_area)
+            cur_area = dfs(x + 1, y, cur_area)
+            cur_area = dfs(x, y - 1, cur_area)
+            cur_area = dfs(x, y + 1, cur_area)
+            return cur_area
+
+        for y in range(m):
+            for x in range(n):
+                if grid[y][x] == 1:
+                    area = dfs(x, y, 0)
+                    ans = max(ans, area)
+        return ans
+
+    def max_area_of_island_test(self):
+        print(
+            self.max_area_of_island(
+                [
+                    [0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+                    [0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
+                    [0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+                ]
+            )
+        )
+
 
 if __name__ == "__main__":
     s = Solution()
-    s.num_islands_test()
+    s.max_area_of_island_test()
