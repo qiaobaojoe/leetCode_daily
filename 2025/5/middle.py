@@ -1,3 +1,4 @@
+from collections import deque
 from functools import lru_cache
 from typing import List
 import heapq
@@ -460,7 +461,41 @@ class Solution:
             )
         )
 
+    def nearest_exit(self, maze: List[List[str]], entrance: List[int]) -> int:
+        m, n = len(maze), len(maze[0])
+        step = -1
+        next_step_deque = deque([(entrance[0], entrance[1], 0)])
+        maze[entrance[0]][entrance[1]] = "+"
+
+        directions = [(-1, 0), (1, 0), (0, 1), (0, -1)]
+        while next_step_deque:
+            cur_y, cur_x, cur_s = next_step_deque.popleft()
+            for dy, dx in directions:
+                next_y = cur_y + dy
+                next_x = cur_x + dx
+                if next_y < 0 or next_x < 0 or next_y >= m or next_x >= n:
+                    # 越界数据不处理
+                    continue
+                if maze[next_y][next_x] == "+":
+                    # 碰到墙了，此路不同
+                    continue
+                # 下面的情况都是通路
+                if next_y == 0 or next_y == m - 1 or next_x == 0 or next_x == n - 1:
+                    # 找到出口了，因为是先进先出，所以第一次出口，就是最短路径
+                    return cur_s + 1
+                next_step_deque.append((next_y, next_x, cur_s + 1))
+                maze[next_y][next_x] = "+"
+        return step
+
+    def nearest_exit_test(self):
+        print(
+            self.nearest_exit(
+                [["+", "+", ".", "+"], [".", ".", ".", "+"], ["+", "+", "+", "."]],
+                [1, 2],
+            )
+        )
+
 
 if __name__ == "__main__":
     s = Solution()
-    s.max_area_of_island_test()
+    s.nearest_exit_test()
