@@ -495,7 +495,63 @@ class Solution:
             )
         )
 
+    def closest_meeting_node(self, edges: List[int], node1: int, node2: int) -> int:
+        # 如果两个都能到达一个公共节点
+        # a 直接到达 b 因为是有向图，且只有一个出边，所以和上面的情况不能同时出现
+        # 所以我应该找到a 所有的通路节点，然后记录下来，如果直接到了b，那就已经得到答案了
+        # 再去找b 所有的通路节点，如果存在相同的节点就直接比较路径长短
+        ans = None
+
+        def put_ans(step, node, ans):
+            if ans is None:
+                return (step, node)
+            if ans[0] > step:
+                return (step, node)
+            if ans[0] == step and ans[1] > node:
+                return (step, node)
+            return ans
+
+        road1 = []
+        next_node1 = node1
+        while next_node1 is not None:
+            if next_node1 == node2:
+                ans = put_ans(len(road1), node2, ans)
+                break
+            if next_node1 in road1:
+                break
+            road1.append(next_node1)
+            if edges[next_node1] == -1:
+                break
+            next_node1 = edges[next_node1]
+
+        road2 = []
+        next_node2 = node2
+
+        while next_node2 is not None:
+            if next_node2 == node1:
+                ans = put_ans(len(road2), node1, ans)
+                break
+            if next_node2 in road1:
+                step2 = len(road2)
+                step1 = road1.index(next_node2)
+                max_step = max(step2, step1)
+                ans = put_ans(max_step, next_node2, ans)
+
+            if next_node2 in road2:
+                break
+            road2.append(next_node2)
+            if edges[next_node2] == -1:
+                break
+            next_node2 = edges[next_node2]
+
+        if ans is None:
+            return -1
+        return ans[1]
+
+    def closest_meeting_node_test(self):
+        print(self.closest_meeting_node([4, 4, 8, -1, 9, 8, 4, 4, 1, 1], 5, 6))
+
 
 if __name__ == "__main__":
     s = Solution()
-    s.nearest_exit_test()
+    s.closest_meeting_node_test()
