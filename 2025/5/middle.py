@@ -527,7 +527,40 @@ class Solution:
     def closest_meeting_node_test(self):
         print(self.closest_meeting_node([4, 4, 8, -1, 9, 8, 4, 4, 1, 1], 5, 6))
 
+    def shortest_path_binary_matrix(self, grid: List[List[int]]) -> int:
+        n = len(grid)
+        if grid[0][0] == 1 or grid[n - 1][n - 1] == 1:
+            return -1
+        next_step_list = deque([(0, 0, 1)])
+        dirctions = [
+            (-1, -1),
+            (-1, 0),
+            (-1, 1),
+            (0, -1),
+            (0, 1),
+            (1, -1),
+            (1, 0),
+            (1, 1),
+        ]
+        while next_step_list:
+            (y, x, s) = next_step_list.popleft()
+            if y == n - 1 and x == n - 1:
+                    # 到达右下角出口
+                return s
+            for dy, dx in dirctions:
+                cur_y, cur_x = y + dy, x + dx
+                if cur_x < 0 or cur_y < 0 or cur_y >= n or cur_x >= n:
+                    # 数组越界
+                    continue
+                if grid[cur_y][cur_x] == 0:
+                    next_step_list.append((cur_y, cur_x, s + 1))
+                    grid[cur_y][cur_x] = 1
+        return -1
+
+    def shortest_path_binary_matrix_test(self):
+        print(self.shortest_path_binary_matrix([[0, 1], [1, 0]]))
+
 
 if __name__ == "__main__":
     s = Solution()
-    s.closest_meeting_node_test()
+    s.shortest_path_binary_matrix_test()
