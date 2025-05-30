@@ -496,57 +496,33 @@ class Solution:
         )
 
     def closest_meeting_node(self, edges: List[int], node1: int, node2: int) -> int:
-        # 如果两个都能到达一个公共节点
-        # a 直接到达 b 因为是有向图，且只有一个出边，所以和上面的情况不能同时出现
-        # 所以我应该找到a 所有的通路节点，然后记录下来，如果直接到了b，那就已经得到答案了
-        # 再去找b 所有的通路节点，如果存在相同的节点就直接比较路径长短
-        ans = None
+        # 看了下官方思路，主要是以空间换时间，减少了大量的比较交换的过程，耗时肯定会减少，很不错的思路
+        n = len(edges)
 
-        def put_ans(step, node, ans):
-            if ans is None:
-                return (step, node)
-            if ans[0] > step:
-                return (step, node)
-            if ans[0] == step and ans[1] > node:
-                return (step, node)
-            return ans
+        def cal_dist(node):
+            # 计算处理， 从当前节点出发到每一个点的距离
+            dist = [n] * n
+            d = 0
+            while True:
+                if dist[node] < n:
+                    # 形成环路
+                    break
+                dist[node] = d
+                node = edges[node]
+                if node == -1:
+                    break
+                d += 1
+            return dist
 
-        road1 = []
-        next_node1 = node1
-        while next_node1 is not None:
-            if next_node1 == node2:
-                ans = put_ans(len(road1), node2, ans)
-                break
-            if next_node1 in road1:
-                break
-            road1.append(next_node1)
-            if edges[next_node1] == -1:
-                break
-            next_node1 = edges[next_node1]
+        dist1 = cal_dist(node1)
+        dist2 = cal_dist(node2)
 
-        road2 = []
-        next_node2 = node2
-
-        while next_node2 is not None:
-            if next_node2 == node1:
-                ans = put_ans(len(road2), node1, ans)
-                break
-            if next_node2 in road1:
-                step2 = len(road2)
-                step1 = road1.index(next_node2)
-                max_step = max(step2, step1)
-                ans = put_ans(max_step, next_node2, ans)
-
-            if next_node2 in road2:
-                break
-            road2.append(next_node2)
-            if edges[next_node2] == -1:
-                break
-            next_node2 = edges[next_node2]
-
-        if ans is None:
-            return -1
-        return ans[1]
+        min_d, ans = n, -1
+        for i, (d1, d2) in enumerate(zip(dist1, dist2)):
+            max_d = max(d1, d2)
+            if max_d < min_d:
+                min_d, ans = max_d, i
+        return ans
 
     def closest_meeting_node_test(self):
         print(self.closest_meeting_node([4, 4, 8, -1, 9, 8, 4, 4, 1, 1], 5, 6))
