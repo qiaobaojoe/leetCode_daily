@@ -590,7 +590,15 @@ class Solution:
     def update_matrix_test(self):
         print(self.update_matrix([[0, 0, 0], [0, 1, 0], [0, 0, 0]]))
 
+    @lru_cache
+    def climb_stairs(self, n: int) -> int:
+        if n == 1:
+            return 1
+        if n == 2:
+            return 2
+        return self.climb_stairs(n - 1) + self.climb_stairs(n - 2)
+
 
 if __name__ == "__main__":
     s = Solution()
-    s.update_matrix_test()
+    s.climb_stairs(3)
