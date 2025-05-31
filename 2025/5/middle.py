@@ -545,7 +545,7 @@ class Solution:
         while next_step_list:
             (y, x, s) = next_step_list.popleft()
             if y == n - 1 and x == n - 1:
-                    # 到达右下角出口
+                # 到达右下角出口
                 return s
             for dy, dx in dirctions:
                 cur_y, cur_x = y + dy, x + dx
@@ -560,7 +560,37 @@ class Solution:
     def shortest_path_binary_matrix_test(self):
         print(self.shortest_path_binary_matrix([[0, 1], [1, 0]]))
 
+    def update_matrix(self, mat: List[List[int]]) -> List[List[int]]:
+        m, n = len(mat), len(mat[0])
+        ans = [[0] * n for _ in range(m)]
+
+        def cal_dis_zero(y, x):
+            if mat[y][x] == 0:
+                return 0
+            dirctions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+            next_points = deque([(y, x, 0)])
+            while next_points:
+                (cur_y, cur_x, dis) = next_points.popleft()
+                for dy, dx in dirctions:
+                    next_y, next_x = cur_y + dy, cur_x + dx
+                    if next_y < 0 or next_x < 0 or next_y >= m or next_x >= n:
+                        # 数组越界
+                        continue
+                    if mat[next_y][next_x]:
+                        next_points.append((next_y, next_x, dis + 1))
+                    else:
+                        return dis + 1
+            return -1
+
+        for y in range(m):
+            for x in range(n):
+                ans[y][x] = cal_dis_zero(y, x)
+        return ans
+
+    def update_matrix_test(self):
+        print(self.update_matrix([[0, 0, 0], [0, 1, 0], [0, 0, 0]]))
+
 
 if __name__ == "__main__":
     s = Solution()
-    s.shortest_path_binary_matrix_test()
+    s.update_matrix_test()
