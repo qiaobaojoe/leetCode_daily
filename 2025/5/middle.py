@@ -599,18 +599,15 @@ class Solution:
         return self.climb_stairs(n - 1) + self.climb_stairs(n - 2)
 
     def distribute_candies(self, n: int, limit: int) -> int:
-        if n > (limit * 3):
-            return 0
-        # 第一个人可以分 [0,max(limit,n)]
-        ans = 0
-        for first_part_candies in range(0, min(n + 1, limit + 1)):
-            for second_part_candies in range(
-                0, min(n - first_part_candies + 1, limit + 1)
-            ):
-                third_part_candies = n - first_part_candies - second_part_candies
-                if third_part_candies <= limit:
-                    ans += 1
-        return ans
+        def c2(n: int) -> int:
+            return n * (n - 1) // 2 if n > 1 else 0
+
+        return (
+            c2(n + 2)
+            - 3 * c2(n - limit + 1)
+            + 3 * c2(n - 2 * limit)
+            - c2(n - 3 * limit - 1)
+        )
 
 
 if __name__ == "__main__":
