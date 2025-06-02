@@ -598,6 +598,20 @@ class Solution:
             return 2
         return self.climb_stairs(n - 1) + self.climb_stairs(n - 2)
 
+    def distribute_candies(self, n: int, limit: int) -> int:
+        if n > (limit * 3):
+            return 0
+        # 第一个人可以分 [0,max(limit,n)]
+        ans = 0
+        for first_part_candies in range(0, min(n + 1, limit + 1)):
+            for second_part_candies in range(
+                0, min(n - first_part_candies + 1, limit + 1)
+            ):
+                third_part_candies = n - first_part_candies - second_part_candies
+                if third_part_candies <= limit:
+                    ans += 1
+        return ans
+
 
 if __name__ == "__main__":
     s = Solution()
