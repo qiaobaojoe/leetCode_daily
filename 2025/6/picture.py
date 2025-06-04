@@ -63,7 +63,39 @@ class Solution:
     def max_distance_test(self):
         print(self.max_distance([[1, 0, 0], [0, 0, 0], [0, 0, 0]]))
 
+    def pond_sizes(self, land: List[List[int]]) -> List[int]:
+        ans = []
+        m, n = len(land), len(land[0])
+
+        def dfs(y, x, a) -> int:
+            if y < 0 or x < 0 or y >= m or x >= n:
+                # 数组越界
+                return a
+            if land[y][x] != 0:
+                return a
+            a += 1
+            land[y][x] = 1
+            a = dfs(y - 1, x, a)
+            a = dfs(y + 1, x, a)
+            a = dfs(y, x - 1, a)
+            a = dfs(y, x + 1, a)
+            a = dfs(y - 1, x + 1, a)
+            a = dfs(y + 1, x - 1, a)
+            a = dfs(y - 1, x + 1, a)
+            a = dfs(y + 1, x - 1, a)
+            return a
+
+        for y in range(m):
+            for x in range(n):
+                if land[y][x] == 0:
+                    ans.append(dfs(y, x, 0))
+        ans.sort()
+        return ans
+
+    def pond_sizes_test(self):
+        print(self.pond_sizes([[0, 2, 1, 0], [0, 1, 0, 1], [1, 1, 0, 1], [0, 1, 0, 1]]))
+
 
 if __name__ == "__main__":
     s = Solution()
-    s.max_distance_test()
+    s.pond_sizes_test()

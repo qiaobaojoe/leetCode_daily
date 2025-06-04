@@ -43,7 +43,7 @@ class DpQuestion:
         for y in range(1, m):
             for x in range(1, n):
                 dp[y][x] = dp[y - 1][x] + dp[y][x - 1]
-        return dp[m-1][n-1]
+        return dp[m - 1][n - 1]
 
     def unique_paths_test(self):
         print(self.unique_paths(3, 7))
