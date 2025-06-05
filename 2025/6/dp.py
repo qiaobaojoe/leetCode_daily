@@ -48,7 +48,29 @@ class DpQuestion:
     def unique_paths_test(self):
         print(self.unique_paths(3, 7))
 
+    def min_falling_path_sum(self, matrix: List[List[int]]) -> int:
+        n = len(matrix)
+        if n == 1:
+            return matrix[0][0]
+        dp = [[0] * n for _ in range(n)]
+        for i, x in enumerate(matrix[0]):
+            dp[0][i] = x
+        for i in range(1, n):
+            for j in range(0, n):
+                if j == 0:
+                    dp[i][j] = matrix[i][j] + min(dp[i - 1][j], dp[i - 1][j + 1])
+                elif j == n - 1:
+                    dp[i][j] = matrix[i][j] + min(dp[i - 1][j], dp[i - 1][j - 1])
+                else:
+                    dp[i][j] = matrix[i][j] + min(
+                        dp[i - 1][j], dp[i - 1][j + 1], dp[i - 1][j - 1]
+                    )
+        return min(dp[n - 1])
+
+    def min_falling_path_sum_test(self):
+        print(self.min_falling_path_sum([[2, 1, 3], [6, 5, 4], [7, 8, 9]]))
+
 
 if __name__ == "__main__":
     s = DpQuestion()
-    s.unique_paths_test()
+    s.min_falling_path_sum_test()
