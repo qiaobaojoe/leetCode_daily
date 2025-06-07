@@ -44,10 +44,30 @@ class Solution:
     def robot_with_string_test(self):
         print(self.robot_with_string("bdda"))
 
+    def clear_stars(self, s: str) -> str:
+        stack = [[] for _ in range(26)]
+        for i,c in enumerate(s):
+            if c == "*":
+                for c_s in stack:
+                    if c_s:
+                        c_s.pop()
+                        break
+            else:
+                stack[ord(c) - ord("a")].append(i)
+        ans = [''] * len(s)
+        for index,c_s in enumerate(stack):
+            if c_s:
+                for i in c_s:
+                    ans[i] = chr(index+ord('a'))
+        return ''.join(ans)
+
+    def clear_stars_test(self):
+        print(self.clear_stars("aaba*"))
+
 
 def main():
     s = Solution()
-    s.robot_with_string_test()
+    s.clear_stars_test()
 
 
 if __name__ == "__main__":
