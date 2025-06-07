@@ -70,7 +70,43 @@ class DpQuestion:
     def min_falling_path_sum_test(self):
         print(self.min_falling_path_sum([[2, 1, 3], [6, 5, 4], [7, 8, 9]]))
 
+    def maximal_square(self, matrix: List[List[str]]) -> int:
+        m, n = len(matrix), len(matrix[0])
+        if m == 1 and n == 1:
+            if matrix[0][0] == "1":
+                return 1
+            else:
+                return 0
+        dp = [[0] * n for _ in range(m)]
+        max_side = 0
+        for x in range(n):
+            if matrix[0][x] == "1":
+                dp[0][x] = 1
+                max_side = 1
+        for y in range(1, m):
+            if matrix[y][0] == "1":
+                dp[y][0] = 1
+                max_side = 1
+        for y in range(1, m):
+            for x in range(1, n):
+                if matrix[y][x] == "1":
+                    dp[y][x] = min(dp[y - 1][x - 1], dp[y - 1][x], dp[y][x - 1]) + 1
+                    max_side = max(max_side, dp[y][x])
+        return max_side * max_side
+
+    def maximal_square_test(self):
+        print(
+            self.maximal_square(
+                [
+                    ["1", "0", "1", "0", "0"],
+                    ["1", "0", "1", "1", "1"],
+                    ["1", "1", "1", "1", "1"],
+                    ["1", "0", "0", "1", "0"],
+                ]
+            )
+        )
+
 
 if __name__ == "__main__":
     s = DpQuestion()
-    s.min_falling_path_sum_test()
+    s.maximal_square_test()

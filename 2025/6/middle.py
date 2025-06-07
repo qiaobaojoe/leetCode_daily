@@ -1,3 +1,4 @@
+from collections import deque
 from string import ascii_lowercase
 
 
@@ -17,16 +18,36 @@ class Solution:
         for x, y in zip(s1, s2):
             merge(x, y)
 
-        return ''.join(find(c) for c in base_str)
-
+        return "".join(find(c) for c in base_str)
 
     def smallest_equivalent_string_test(self):
         print(self.smallest_equivalent_string("leetcode", "programs", "sourcecode"))
 
+    def robot_with_string(self, s: str) -> str:
+        p, t = [], []
+        s_list = deque()
+        for c in s:
+            s_list.append(c)
+        while s_list:
+            cur = s_list.popleft()
+            while t:
+                t_last = t[-1]
+                if ord(t_last) >= ord(cur):
+                    break
+                p.append(t.pop())
+            t.append(cur)
+        while t:
+            p.append(t.pop())
+
+        return "".join(p)
+
+    def robot_with_string_test(self):
+        print(self.robot_with_string("bdda"))
+
 
 def main():
     s = Solution()
-    s.smallest_equivalent_string_test()
+    s.robot_with_string_test()
 
 
 if __name__ == "__main__":
