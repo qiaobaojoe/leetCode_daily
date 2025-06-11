@@ -125,6 +125,25 @@ class DpQuestion:
     def longest_palindrome_subseq_test(self):
         print(self.longest_palindrome_subseq("bbbab"))
 
+    def min_distance(self, word1: str, word2: str) -> int:
+        # 这里我认为要分为三种情况去考虑
+        # 1. word1 的长度和 word2 的长度相同，遍历两个字符，相同下标字符不同替换即可
+        ans = 0 
+        len1 ,len2 = len(word1),len(word2)
+        if len1 == len2:
+            for l1,l2 in zip(word1,word2):
+                if l1 != l2:
+                    ans += 1
+            return ans
+        # 2. word1的长度大于word2的长度，需要找到两个字符串种 按顺序最多的公共相同字符
+        # 这个情况有点困难了，不是先找到第一个相同，再去找下个相同的字符，可以选择从第二相同的字符开始 todo 
+            
+
+        pass
+
+    def min_distance_test(self):
+        print(self.min_distance("horse", "ros"))
+
 
 if __name__ == "__main__":
     s = DpQuestion()
