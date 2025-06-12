@@ -128,23 +128,49 @@ class DpQuestion:
     def min_distance(self, word1: str, word2: str) -> int:
         # 这里我认为要分为三种情况去考虑
         # 1. word1 的长度和 word2 的长度相同，遍历两个字符，相同下标字符不同替换即可
-        ans = 0 
-        len1 ,len2 = len(word1),len(word2)
+        ans = 0
+        len1, len2 = len(word1), len(word2)
         if len1 == len2:
-            for l1,l2 in zip(word1,word2):
+            for l1, l2 in zip(word1, word2):
                 if l1 != l2:
                     ans += 1
             return ans
         # 2. word1的长度大于word2的长度，需要找到两个字符串种 按顺序最多的公共相同字符
-        # 这个情况有点困难了，不是先找到第一个相同，再去找下个相同的字符，可以选择从第二相同的字符开始 todo 
-            
+        # 这个情况有点困难了，不是先找到第一个相同，再去找下个相同的字符，可以选择从第二相同的字符开始 todo
 
         pass
 
     def min_distance_test(self):
         print(self.min_distance("horse", "ros"))
 
+    def length_of_lis(self, nums: List[int]) -> int:
+        # 确实有点难，如果是枚举所有的子序列判断排序这里复杂度可以达到 2 ^ n
+        # 这里全排列要怎么写？
+
+        pass
+
+    def get_all_subsequences(self,nums: List[int]) -> List[List[int]]:
+
+        def backtrack(start: int, current: List[int]):
+            # 每个当前序列都是一个有效的子序列
+            subsequences.append(current[:])
+
+            # 从start开始，避免重复
+            for i in range(start, len(nums)):
+                # 如果当前序列为空或者新数字大于序列最后一个数字
+                if not current or nums[i] > current[-1]:
+                    current.append(nums[i])
+                    backtrack(i + 1, current)
+                    current.pop()
+
+        subsequences = []
+        backtrack(0, [])
+        return subsequences
+
+    def length_of_lis_test(self):
+        print(self.get_all_subsequences([10, 9, 2, 5, 3, 7, 101, 18]))
+
 
 if __name__ == "__main__":
     s = DpQuestion()
-    s.longest_palindrome_subseq_test()
+    s.length_of_lis_test()
