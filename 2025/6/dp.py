@@ -149,7 +149,7 @@ class DpQuestion:
 
         pass
 
-    def get_all_subsequences(self,nums: List[int]) -> List[List[int]]:
+    def get_all_subsequences(self, nums: List[int]) -> List[List[int]]:
 
         def backtrack(start: int, current: List[int]):
             # 每个当前序列都是一个有效的子序列
@@ -170,7 +170,32 @@ class DpQuestion:
     def length_of_lis_test(self):
         print(self.get_all_subsequences([10, 9, 2, 5, 3, 7, 101, 18]))
 
+    def letter_combinations(self, digits: str) -> List[str]:
+        num_letter_table = [[] for _ in range(10)]
+        num_letter_table[2] = ["a", "b", "c"]
+        num_letter_table[3] = ["d", "e", "f"]
+        num_letter_table[4] = ["g", "h", "i"]
+        num_letter_table[5] = ["j", "k", "l"]
+        num_letter_table[6] = ["m", "n", "o"]
+        num_letter_table[7] = ["p", "q", "r", "s"]
+        num_letter_table[8] = ["t", "u", "v"]
+        num_letter_table[9] = ["w", "x", "y", "z"]
+
+        ans = [""]
+        for c in digits:
+            letters = num_letter_table[int(c)]
+            next_ans= []
+            while ans:
+                tem_s = ans.pop()
+                for l in letters:
+                    next_ans.append(tem_s + l)
+            ans = next_ans
+        return ans
+
+    def letter_combinations_test(self):
+        print(self.letter_combinations("23"))
+
 
 if __name__ == "__main__":
     s = DpQuestion()
-    s.length_of_lis_test()
+    s.letter_combinations_test()
