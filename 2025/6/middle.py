@@ -115,19 +115,52 @@ class Solution:
         dp = [False] * (n + 1)
         dp[0] = True
         for i in range(n):
-            for (j,arrived) in enumerate(sub_grid[i]):
+            for j, arrived in enumerate(sub_grid[i]):
                 if arrived:
-                    dp[j+1] =  dp[j+1] | dp[i]
+                    dp[j + 1] = dp[j + 1] | dp[i]
         return dp[n]
 
-
     def word_break_test(self):
-        print(self.word_break("aaaaaaa", ["aaaa","aaa"]))
+        print(self.word_break("aaaaaaa", ["aaaa", "aaa"]))
+
+    def min_max_difference(self, num: int) -> int:
+        s = str(num)
+        max_s = []
+        d1 = ""
+        for c in s:
+            if d1 == "":
+                if c != "9":
+                    d1 = c
+
+            if c == d1:
+                max_s.append("9")
+            else:
+                max_s.append(c)
+        num_max = int("".join(max_s))
+        min_s = []
+        d3 = ""
+        for c in s:
+            if d3 == "":
+                d3 = c
+            if c == d3:
+                if min_s:
+                    min_s.append("0")
+            else:
+                min_s.append(c)
+        if min_s:
+            num_min = int("".join(min_s))
+        else:
+            num_min = 0
+
+        return num_max - num_min
+
+    def min_max_difference_test(self):
+        print(self.min_max_difference(11891))
 
 
 def main():
     s = Solution()
-    s.word_break_test()
+    s.min_max_difference_test()
 
 
 if __name__ == "__main__":
