@@ -157,10 +157,38 @@ class Solution:
     def min_max_difference_test(self):
         print(self.min_max_difference(11891))
 
+    def max_diff(self, num: int) -> int:
+        max_num = num
+        min_mun = num
+        num_str = str(num)
+        first_num = int(num_str[0])
+        selected_num, update_num = "", ""
+        for i in range(10):
+            selected_num = str(i)
+            for j in range(10):
+                if i == j:
+                    # 没有发生交换
+                    continue
+                if j == 0:
+                    if first_num == i:
+                        # 替换后的数字不能为前导0
+                        continue
+                update_num = str(j)
+                update_num_str = num_str[::].replace(selected_num, update_num)
+                update_num = int("".join(update_num_str))
+                max_num = max(max_num, update_num)
+                min_mun = min(min_mun, update_num)
+
+        return max_num - min_mun
+
+    def max_diff_test(self):
+        # print(self.max_diff(555))
+        print(self.max_diff(9))
+
 
 def main():
     s = Solution()
-    s.min_max_difference_test()
+    s.max_diff_test()
 
 
 if __name__ == "__main__":
