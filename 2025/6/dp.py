@@ -148,23 +148,19 @@ class DpQuestion:
         # 对于求 i-1和i的关系，我认为一定是i比i-1里面所有的数据都大，才能得到ans(i-1)+1，
         # 这个推论是没有问题，但是他不能形成有效的递推关系，因为i不比i-1的所有数据都大，也是有可能序列加一，我没有办法推导出状态转移方程
         # 在看了题解后，明白了这个问题的解法，有一个重要的前提，就是子序列一定要选中最后一个元素，就会简化一部分遍历
+        # 刚才理解了递归的写法，现在来推导一下动态规划，应该不难
+        # 没有想到这个动态规划我完全没有思路
+        # dp[i]代表 0-i范围内的数据，选择i作为的最后一位的最长子序列长度
         n = len(nums)
-        ans = 0
-
-        @cache
-        def dfs(i) -> int:
-            if i == 0:
-                return 1
-            # 为一的子序列也是递增数组，所以这里不能为0 
-            res = 1
+        dp = [1] * n
+        # dp[i] 代表以下标i作为最后一个元素的最长子序列长度
+        for i in range(1, n):
+            max_length_i = 1
             for j in range(i):
                 if nums[i] > nums[j]:
-                    res = max(res, dfs(j) + 1)
-            return res
-
-        for i in range(n):
-            ans = max(ans, dfs(i))
-        return ans
+                    max_length_i = max(max_length_i, dp[j] + 1)
+            dp[i] = max_length_i
+        return max(dp)
 
     def get_all_subsequences(self, nums: List[int]) -> List[List[int]]:
 
