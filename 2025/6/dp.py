@@ -144,10 +144,27 @@ class DpQuestion:
         print(self.min_distance("horse", "ros"))
 
     def length_of_lis(self, nums: List[int]) -> int:
-        # 确实有点难，如果是枚举所有的子序列判断排序这里复杂度可以达到 2 ^ n
-        # 这里全排列要怎么写？
+        # 数组最长子序列的问题，在推导子问题的过程中，最开始我陷入了一个误区
+        # 对于求 i-1和i的关系，我认为一定是i比i-1里面所有的数据都大，才能得到ans(i-1)+1，
+        # 这个推论是没有问题，但是他不能形成有效的递推关系，因为i不比i-1的所有数据都大，也是有可能序列加一，我没有办法推导出状态转移方程
+        # 在看了题解后，明白了这个问题的解法，有一个重要的前提，就是子序列一定要选中最后一个元素，就会简化一部分遍历
+        n = len(nums)
+        ans = 0
 
-        pass
+        @cache
+        def dfs(i) -> int:
+            if i == 0:
+                return 1
+            # 为一的子序列也是递增数组，所以这里不能为0 
+            res = 1
+            for j in range(i):
+                if nums[i] > nums[j]:
+                    res = max(res, dfs(j) + 1)
+            return res
+
+        for i in range(n):
+            ans = max(ans, dfs(i))
+        return ans
 
     def get_all_subsequences(self, nums: List[int]) -> List[List[int]]:
 
@@ -168,7 +185,7 @@ class DpQuestion:
         return subsequences
 
     def length_of_lis_test(self):
-        print(self.get_all_subsequences([10, 9, 2, 5, 3, 7, 101, 18]))
+        print(self.length_of_lis([10, 9, 2, 5, 3, 7, 101, 18]))
 
     def letter_combinations(self, digits: str) -> List[str]:
         num_letter_table = [[] for _ in range(10)]
@@ -184,7 +201,7 @@ class DpQuestion:
         ans = [""]
         for c in digits:
             letters = num_letter_table[int(c)]
-            next_ans= []
+            next_ans = []
             while ans:
                 tem_s = ans.pop()
                 for l in letters:
@@ -198,4 +215,4 @@ class DpQuestion:
 
 if __name__ == "__main__":
     s = DpQuestion()
-    s.letter_combinations_test()
+    s.length_of_lis_test()
