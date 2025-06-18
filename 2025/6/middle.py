@@ -185,10 +185,28 @@ class Solution:
         # print(self.max_diff(555))
         print(self.max_diff(9))
 
+    def divide_array(self, nums: List[int], k: int) -> List[List[int]]:
+        n = len(nums)
+        nums.sort()
+        ans = []
+        # 从第一个元素开始遍历 找 nums[i] >= nums[0] + k 的下标i
+        # 我想的太复杂了，我想要把所有在k范围的内数据区间都划分出来，然后在里面区所有的子序列
+        # 但是因为我的区间是固定的3，所以我直接框定区间，i和i+2差值是否满足要求就可以，但是这里要注意重复的子集问题
+        # 这个题目没有读懂，不是划分任意个子数组，数组的数量是固定的 n/3
+        for i in range(0, (n // 3)):
+            j = i * 3
+            if nums[j + 2] > nums[j] + k:
+                return []
+            ans.append([nums[j], nums[j + 1], nums[j + 2]])
+        return ans
+
+    def divide_array_test(self):
+        print(self.divide_array([1, 3, 4, 8, 7, 9, 3, 5, 1], 2))
+
 
 def main():
     s = Solution()
-    s.max_diff_test()
+    s.divide_array_test()
 
 
 if __name__ == "__main__":
